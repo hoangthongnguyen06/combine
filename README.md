@@ -1,2 +1,0 @@
-# combine
-The whole picture
