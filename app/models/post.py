@@ -20,3 +20,44 @@ class Post(db.Model):
     description = db.Column(db.String, nullable=True)
 
     target = db.relationship('Target', back_populates='posts')
+
+    @classmethod
+    def create(cls, account_id, content, domain, link=None, hashtag=None, description=None):
+        post = cls(account_id=account_id, content=content, domain=domain, link=link, hashtag=hashtag, description=description)
+        db.session.add(post)
+        db.session.commit()
+        return post
+
+    def update(self, **kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    @classmethod
+    def get_all(cls):
+        return cls.query.all()
+
+    @classmethod
+    def get_by_id(cls, id):
+        return cls.query.get(id)
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'account_id': self.account_id,
+            'nuance_id': self.nuance_id,
+            'date': self.date.isoformat(),
+            'content': self.content,
+            'likes': self.likes,
+            'comments': self.comments,
+            'shares': self.shares,
+            'domain': self.domain,
+            'link': self.link,
+            'hashtag': self.hashtag,
+            'type': self.type,
+            'description': self.description
+        }
