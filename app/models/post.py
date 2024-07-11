@@ -1,23 +1,22 @@
 # app/models/post.py
-from datetime import datetime
 from app import db
+from datetime import datetime
 
 class Post(db.Model):
     __tablename__ = 'posts'
-    post_id = db.Column(db.Integer, primary_key=True)
-    author_id = db.Column(db.Integer, db.ForeignKey('authors.author_id'))
-    nuance_id = db.Column(db.Integer, db.ForeignKey('nuances.nuance_id'))
-    date = db.Column(db.DateTime, default=datetime.utcnow)
-    content = db.Column(db.String)
-    likes = db.Column(db.Integer)
-    comments = db.Column(db.Integer)
-    shares = db.Column(db.Integer)
-    topic_id = db.Column(db.Integer, db.ForeignKey('topics.topic_id'))
-    domain_id = db.Column(db.Integer, db.ForeignKey('domains.domain_id'))
-    link = db.Column(db.String)
-    hashtag = db.Column(db.String)
+    
+    id = db.Column(db.String, primary_key=True)
+    account_id = db.Column(db.String, db.ForeignKey('targets.id'), nullable=False)
+    nuance = db.Column(db.String, nullable=False, default='General')
+    date = db.Column(db.Date, default=datetime.utcnow)
+    content = db.Column(db.String, nullable=False)
+    likes = db.Column(db.Integer, default=0)
+    comments = db.Column(db.Integer, default=0)
+    shares = db.Column(db.Integer, default=0)
+    domain = db.Column(db.String, nullable=False)
+    link = db.Column(db.String, nullable=True)
+    hashtag = db.Column(db.String, nullable=True)
+    type = db.Column(db.String, nullable=False, default='Post')
+    description = db.Column(db.String, nullable=True)
 
-    author = db.relationship("Author", back_populates="posts")
-    nuance = db.relationship("Nuance", back_populates="posts")
-    topic = db.relationship("Topic", back_populates="posts")
-    domain = db.relationship("Domain", back_populates="posts")
+    target = db.relationship('Target', back_populates='posts')
