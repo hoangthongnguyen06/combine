@@ -1,5 +1,9 @@
 from apscheduler.schedulers.background import BackgroundScheduler
-from app.services.data_service import update_targets_from_api, update_posts_from_api, update_topics_from_api, update_objects_from_api, update_results_from_api
+from app.services.target import update_targets_from_api
+from app.services.post import update_posts_from_api
+from app.services.topic import update_topics_from_api
+from app.services.object import update_objects_from_api
+from app.services.result import update_results_from_api
 
 def start_scheduler():
     scheduler = BackgroundScheduler()
