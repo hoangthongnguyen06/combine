@@ -6,7 +6,8 @@ class Post(db.Model):
     __tablename__ = 'TCTT_Posts'
     
     id = db.Column(db.String, primary_key=True)
-    account_id = db.Column(db.String, db.ForeignKey('targets.id'), nullable=False)
+    # account_id = db.Column(db.String, db.ForeignKey('targets.id'), nullable=False)
+    account_id = db.Column(db.String, nullable=False)
     nuance = db.Column(db.String, nullable=False, default='General')
     post_time = db.Column(db.Date, default=datetime.utcnow)
     created_at = db.Column(db.Date, default=datetime.utcnow) 

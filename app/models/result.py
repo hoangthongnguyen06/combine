@@ -2,7 +2,7 @@ from datetime import datetime
 from app import db
 
 class Result(db.Model):
-    __tablename__ = 'results'
+    __tablename__ = 'TCTT_Result'
 
     id = db.Column(db.String, primary_key=True)
     account_id = db.Column(db.String, db.ForeignKey('targets.id'))
