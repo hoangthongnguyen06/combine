@@ -14,6 +14,7 @@ def create_app():
         from app.models import Target, Post, Topic, Object, Result
         db.create_all()
 
+        # Register Blueprints
         from app.routes.target import bp_targets
         from app.routes.post import bp_posts
         from app.routes.topic import bp_topics
@@ -26,7 +27,8 @@ def create_app():
         app.register_blueprint(bp_objects, url_prefix='/objects')
         app.register_blueprint(bp_results, url_prefix='/results')
 
+        # Start scheduler
         from app.utils.scheduler import start_scheduler
-        start_scheduler(app)
+        start_scheduler()
 
     return app

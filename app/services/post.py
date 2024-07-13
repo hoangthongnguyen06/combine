@@ -48,7 +48,6 @@ def update_posts_from_api(api_url, headers=None, app=None):
                 post_data = {
                     "id": hit["id"],
                     "account_id": hit["author_id"],
-                    "content": hit["content"],
                     "likes": hit["like_count"],
                     "comments": hit["comment_count"],
                     "shares": hit["share_count"],
@@ -67,11 +66,16 @@ def update_posts_from_api(api_url, headers=None, app=None):
                 # Xử lý hashtag
                 if hit.get('keywords'):
                     post_data["hashtag"] = ', '.join(hit.get('keywords'))
-                # Xử lý
+                # Xử lý thời gian tạo
                 if hit.get('published_timestamp'):
                     dt_object = datetime.fromtimestamp(
                         hit['published_timestamp'] / 1000.0)
                     post_data['date'] = dt_object.strftime("%Y/%m/%d %H:%M:%S")
+                # Xử lý nội dung
+                if hit.get('content') is None:
+                    post_data['content'] = "Không có nội dung"
+                else:
+                    post_data['content'] = hit.get('content')
                 top = Post.query.filter_by(id=post_data['id']).first()
                 if top:
                     for key, value in post_data.items():
