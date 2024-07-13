@@ -2,7 +2,7 @@ from datetime import datetime
 from app import db
 
 class Object(db.Model):
-    __tablename__ = 'objects'
+    __tablename__ = 'TCTT_Object'
 
     id = db.Column(db.String, primary_key=True)
     name = db.Column(db.String(255), nullable=False)

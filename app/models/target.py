@@ -3,7 +3,7 @@ from app import db
 from datetime import datetime
 
 class Target(db.Model):
-    __tablename__ = 'targets'
+    __tablename__ = 'TCTT_Target'
     
     id = db.Column(db.String, primary_key=True)
     name = db.Column(db.String, nullable=False)
