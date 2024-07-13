@@ -2,14 +2,14 @@ from datetime import datetime
 from app import db
 
 class Topic(db.Model):
-    __tablename__ = 'topics'
+    __tablename__ = 'TCTT_Topic'
 
     id = db.Column(db.String, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     parent_id = db.Column(db.String)
     status = db.Column(db.String(20), default='Active')
     state = db.Column(db.String(20))
-    date = db.Column(db.Date, default=datetime)
+    created_at = db.Column(db.Date, default=datetime)
 
     @classmethod
     def create(cls, name, parent_id=None, status='Active', state=None):
