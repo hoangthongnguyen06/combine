@@ -4,10 +4,11 @@ from datetime import datetime
 from app import db
 
 def update_topics_from_api(api_url, headers=None):
+    print(api_url)
     response = requests.get(api_url, headers=headers)
     if response.status_code == 200:
         api_data = response.json()
-        items = api_data.get("data", {}).get("items", [])
+        items = api_data.post("data", {}).get("items", [])
 
         for item in items:
             topic_data = {
@@ -34,6 +35,7 @@ def update_topics_from_api(api_url, headers=None):
                 new_obj = Topic(**topic_data)
                 db.session.add(new_obj)
                 db.session.commit()
+            print(item)
     else:
         print(f"Failed to fetch objects: {response.status_code}")
 

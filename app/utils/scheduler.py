@@ -41,13 +41,17 @@ def start_scheduler():
         return
     
     headers = {"Authorization": f"Bearer {access_token}"}
-    
     # Schedule jobs with updated functions
-    # scheduler.add_job(func=update_targets_from_api, trigger="interval", minutes=30, args=("https://api.example.com/targets", headers))
-    # scheduler.add_job(func=update_posts_from_api, trigger="interval", minutes=30, args=("https://api.example.com/posts", headers))
-    scheduler.add_job(func=update_topics_from_api, trigger="interval", minutes=30, args=(str(endpoints.APIPlatformEndpoints) + "/topic/search", headers))
-    # scheduler.add_job(func=update_objects_from_api, trigger="interval", minutes=30, args=("https://api.example.com/objects", headers))
-    # scheduler.add_job(func=update_results_from_api, trigger="interval", minutes=30, args=("https://api.example.com/results", headers))
-    
-    scheduler.start()
+    try:
+        # Schedule jobs with updated functions
+        # scheduler.add_job(func=update_targets_from_api, trigger="interval", minutes=30, args=("https://api.example.com/targets", headers))
+        # scheduler.add_job(func=update_posts_from_api, trigger="interval", minutes=30, args=("https://api.example.com/posts", headers))
+        scheduler.add_job(func=update_topics_from_api, trigger="interval", minutes=0.5, args=(endpoints.APIPlatformEndpoints.GET_TOPIC.value, headers))
+        # scheduler.add_job(func=update_objects_from_api, trigger="interval", minutes=30, args=("https://api.example.com/objects", headers))
+        # scheduler.add_job(func=update_results_from_api, trigger="interval", minutes=30, args=("https://api.example.com/results", headers))
+        
+        scheduler.start()
+        print("Scheduler started successfully.")
+    except Exception as e:
+        print(f"Error starting scheduler: {e}")
 
