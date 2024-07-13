@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
-from app.services.topic import update_topics_from_api, create_topic, update_topic, delete_topic, get_topic, get_all_topics
+# from app.services.topic import update_topics_from_api, create_topic, update_topic, delete_topic, get_topic, get_all_topics
+from app.services.topic import update_topics_from_api
 
 bp_topics = Blueprint('topics', __name__)
 

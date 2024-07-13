@@ -18,8 +18,7 @@ class Post(db.Model):
     hashtag = db.Column(db.String, nullable=True)
     type = db.Column(db.String, nullable=False, default='Post')
     description = db.Column(db.String, nullable=True)
-
-    target = db.relationship('Target', back_populates='posts')
+    # target = db.relationship('Target', back_populates='posts')
 
     @classmethod
     def create(cls, account_id, content, domain, link=None, hashtag=None, description=None):
