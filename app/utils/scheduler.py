@@ -25,7 +25,6 @@ def get_access_token(username, password):
     if response.status_code == 200:
         access_token = response.json().get('data', {}).get('data', {}).get('token')
         print("Successfully obtained access token.")
-        print(access_token)
         return access_token
     else:
         print(f"Failed to obtain access token. Status code: {response.status_code}")

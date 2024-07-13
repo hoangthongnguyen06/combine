@@ -1,43 +1,63 @@
 import requests
-from app.models import Topic
 from datetime import datetime
 from app import db
+from app.models import Topic
+from flask import current_app
+import requests
+from datetime import datetime
+import requests
+from flask import current_app
+from app import db
+from app.models import Topic
 
 def update_topics_from_api(api_url, headers=None):
-    print(api_url)
-    response = requests.get(api_url, headers=headers)
-    if response.status_code == 200:
-        api_data = response.json()
-        items = api_data.post("data", {}).get("items", [])
+    payload = {
+        "page": 1,
+        "size": 1000,
+        "data": {
+            "name": "",
+            "organization_id": "null",
+            "only_root": "true"
+        },
+        "order_field": "created_at",
+        "order_type": "DESC"
+    }
 
-        for item in items:
-            topic_data = {
-                "id": item["id"],
-                "name": item["name"],
-                "date": item["start_at"],
-                "parent_id": item["topic_parent_id"]
-                # Add other fields you need here
-            }
-            # Check if end_at is expired
-            end_at = item.get("end_at")
-            if end_at:
-                end_at_datetime = datetime.strptime(end_at, "%Y/%m/%d %H:%M:%S")
-                if end_at_datetime < datetime.now():
-                    topic_data["status"] = "deactive"
-                else:
-                    topic_data["status"] = "active"
-            top = Topic.query.filter_by(id=topic_data['id']).first()
-            if top:
-                for key, value in topic_data.items():
-                    setattr(top, key, value)
-                db.session.commit()
+    try:
+        with current_app.app_context():
+            response = requests.post(api_url, json=payload, headers=headers, verify=False)
+            if response.status_code == 200:
+                api_data = response.json().get("data", {}).get("items", [])
+                for item in api_data:
+                    topic_data = {
+                        "id": item["id"],
+                        "name": item["name"],
+                        "date": item["start_at"],
+                        "parent_id": item["topic_parent_id"]
+                    }
+                    end_at = item.get("end_at")
+                    if end_at:
+                        end_at_datetime = datetime.strptime(end_at, "%Y/%m/%d %H:%M:%S")
+                        if end_at_datetime < datetime.now():
+                            topic_data["status"] = "deactive"
+                        else:
+                            topic_data["status"] = "active"
+                    
+                    topic = Topic.query.filter_by(id=topic_data['id']).first()
+                    if topic:
+                        for key, value in topic_data.items():
+                            setattr(topic, key, value)
+                    else:
+                        topic = Topic(**topic_data)
+                        db.session.add(topic)
+                    
+                    db.session.commit()
             else:
-                new_obj = Topic(**topic_data)
-                db.session.add(new_obj)
-                db.session.commit()
-            print(item)
-    else:
-        print(f"Failed to fetch objects: {response.status_code}")
+                print(f"Failed to fetch objects: {response.status_code}")
+    except requests.exceptions.RequestException as e:
+        print(f"An error occurred with the request: {e}")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
 
 def create_topic(data):
     topic = Topic.create(**data)
