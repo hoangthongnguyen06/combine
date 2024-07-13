@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
-from app.services.post import update_posts_from_api, create_post, update_post, delete_post, get_post, get_all_posts
+# from app.services.post import update_posts_from_api, create_post, update_post, delete_post, get_post, get_all_posts
+from app.services.post import update_posts_from_api
 
 bp_posts = Blueprint('posts', __name__)
 

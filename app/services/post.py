@@ -2,7 +2,6 @@ import requests
 from app.models import Post
 from app import db
 from datetime import datetime
-from run import app
 
 payload = {
     "trends": [],
