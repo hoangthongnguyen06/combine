@@ -1,16 +1,53 @@
+import requests
 from apscheduler.schedulers.background import BackgroundScheduler
 from app.services.target import update_targets_from_api
 from app.services.post import update_posts_from_api
 from app.services.topic import update_topics_from_api
 from app.services.object import update_objects_from_api
 from app.services.result import update_results_from_api
-from app import config
+from app import config, endpoints
+import requests
+import urllib3
+import certifi
+from urllib3.exceptions import InsecureRequestWarning
+
+# Bỏ qua cảnh báo không xác minh yêu cầu không an toàn
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
+def get_access_token(username, password):
+    login_url = endpoints.APIPlatformEndpoints.LOGIN.value
+    login_data = {
+        'username': username,
+        'password': password,
+    }
+    response = requests.post(login_url, json=login_data, verify=False)
+    
+    if response.status_code == 200:
+        access_token = response.json().get('data', {}).get('data', {}).get('token')
+        print("Successfully obtained access token.")
+        print(access_token)
+        return access_token
+    else:
+        print(f"Failed to obtain access token. Status code: {response.status_code}")
+        return None
 
 def start_scheduler():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(func=update_targets_from_api, trigger="interval", minutes=30, args=("https://api.example.com/targets", {"Authorization": "Bearer token"}))
-    scheduler.add_job(func=update_posts_from_api, trigger="interval", minutes=30, args=("https://api.example.com/posts", {"Authorization": "Bearer token"}))
-    scheduler.add_job(func=update_topics_from_api, trigger="interval", minutes=30, args=("https://"+config.Config.platformUrl+"/api/platform/topic/search", {"Authorization": "Bearer token"}))
-    scheduler.add_job(func=update_objects_from_api, trigger="interval", minutes=30, args=("https://api.example.com/objects", {"Authorization": "Bearer token"}))
-    scheduler.add_job(func=update_results_from_api, trigger="interval", minutes=30, args=("https://api.example.com/results", {"Authorization": "Bearer token"}))
+    
+    # Get access token
+    access_token = get_access_token(config.Config.USERNAME_PLATFORM, config.Config.PASSWORD_PLATFORM)
+    if not access_token:
+        print("Failed to start scheduler. Could not obtain access token.")
+        return
+    
+    headers = {"Authorization": f"Bearer {access_token}"}
+    
+    # Schedule jobs with updated functions
+    # scheduler.add_job(func=update_targets_from_api, trigger="interval", minutes=30, args=("https://api.example.com/targets", headers))
+    # scheduler.add_job(func=update_posts_from_api, trigger="interval", minutes=30, args=("https://api.example.com/posts", headers))
+    scheduler.add_job(func=update_topics_from_api, trigger="interval", minutes=30, args=(str(endpoints.APIPlatformEndpoints) + "/topic/search", headers))
+    # scheduler.add_job(func=update_objects_from_api, trigger="interval", minutes=30, args=("https://api.example.com/objects", headers))
+    # scheduler.add_job(func=update_results_from_api, trigger="interval", minutes=30, args=("https://api.example.com/results", headers))
+    
     scheduler.start()
+
