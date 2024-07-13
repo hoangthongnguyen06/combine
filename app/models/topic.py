@@ -9,7 +9,7 @@ class Topic(db.Model):
     parent_id = db.Column(db.String)
     status = db.Column(db.String(20), default='Active')
     state = db.Column(db.String(20))
-    date = db.Column(db.Date, default=datetime.utcnow)
+    date = db.Column(db.Date, default=datetime)
 
     @classmethod
     def create(cls, name, parent_id=None, status='Active', state=None):

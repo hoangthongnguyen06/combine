@@ -1,19 +1,41 @@
 import requests
 from app.models import Topic
+from datetime import datetime
 from app import db
 
 def update_topics_from_api(api_url, headers=None):
     response = requests.get(api_url, headers=headers)
     if response.status_code == 200:
-        topics_data = response.json()
-        for topic_data in topics_data:
-            topic = Topic.query.filter_by(id=topic_data['id']).first()
-            if topic:
-                topic.update(**topic_data)
+        api_data = response.json()
+        items = api_data.get("data", {}).get("items", [])
+
+        for item in items:
+            topic_data = {
+                "id": item["id"],
+                "name": item["name"],
+                "date": item["start_at"],
+                "parent_id": item["topic_parent_id"]
+                # Add other fields you need here
+            }
+            # Check if end_at is expired
+            end_at = item.get("end_at")
+            if end_at:
+                end_at_datetime = datetime.strptime(end_at, "%Y/%m/%d %H:%M:%S")
+                if end_at_datetime < datetime.now():
+                    topic_data["status"] = "deactive"
+                else:
+                    topic_data["status"] = "active"
+            top = Topic.query.filter_by(id=topic_data['id']).first()
+            if top:
+                for key, value in topic_data.items():
+                    setattr(top, key, value)
+                db.session.commit()
             else:
-                Topic.create(**topic_data)
+                new_obj = Topic(**topic_data)
+                db.session.add(new_obj)
+                db.session.commit()
     else:
-        print(f"Failed to fetch topics: {response.status_code}")
+        print(f"Failed to fetch objects: {response.status_code}")
 
 def create_topic(data):
     topic = Topic.create(**data)
