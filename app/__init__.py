@@ -29,6 +29,6 @@ def create_app():
 
         # Start scheduler
         from app.utils.scheduler import start_scheduler
-        start_scheduler()
+        start_scheduler(app)
 
     return app
