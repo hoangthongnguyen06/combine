@@ -24,9 +24,9 @@ def update_topics_from_api(api_url, headers=None, app=None):
                 api_data = response.json().get("data", {}).get("items", [])
                 for item in api_data:
                     topic_data = {
-                        "id": UUID(item["id"]),  # Chuyển đổi item["id"] thành UUID
+                        "id": str(item["id"]),  # Chuyển đổi thành chuỗi
                         "name": item["name"],
-                        "date": datetime.strptime(item["start_at"], "%Y/%m/%d %H:%M:%S"),
+                        "created_at": datetime.strptime(item["start_at"], "%Y/%m/%d %H:%M:%S"),
                         "parent_id": item.get("topic_parent_id")
                     }
                     end_at = item.get("end_at")
