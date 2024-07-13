@@ -54,6 +54,7 @@ def update_posts_from_api(api_url, headers=None, app=None):
                     "link": hit["url"],
                     "type": hit["article_type"],
                     "description": hit["description"],
+                    "created_at": hit["created_time"]
                 }
                 # Xử lý sắc thái
                 if hit.get('sentiment') == -1:
@@ -63,12 +64,13 @@ def update_posts_from_api(api_url, headers=None, app=None):
                 elif hit.get('sentiment') == 1:
                     post_data["nuance"] = 'Tích cực'
                 # Xử lý hashtag
-    
+
                 # Xử lý thời gian tạo
                 if hit.get('published_timestamp'):
                     dt_object = datetime.fromtimestamp(
                         hit['published_timestamp'] / 1000.0)
-                    post_data['post_time'] = dt_object.strftime("%Y/%m/%d %H:%M:%S")
+                    post_data['post_time'] = dt_object.strftime(
+                        "%Y/%m/%d %H:%M:%S")
                 # Xử lý nội dung
                 if hit.get('content') is None:
                     post_data['content'] = "Không có nội dung"
