@@ -1,16 +1,14 @@
-# app/models/post.py
 from app import db
 from datetime import datetime
 
 class Post(db.Model):
     __tablename__ = 'TCTT_Posts'
-    
+
     id = db.Column(db.String, primary_key=True)
-    # account_id = db.Column(db.String, db.ForeignKey('targets.id'), nullable=False)
-    account_id = db.Column(db.String, nullable=False)
+    account_id = db.Column(db.String, db.ForeignKey('TCTT_Target.id'), nullable=False)
     nuance = db.Column(db.String, nullable=False, default='General')
-    post_time = db.Column(db.Date, default=datetime.utcnow)
-    created_at = db.Column(db.Date, default=datetime.utcnow) 
+    post_time = db.Column(db.TIMESTAMP(timezone=True), default=datetime.utcnow, nullable=False)
+    created_at = db.Column(db.TIMESTAMP(timezone=True), default=datetime.utcnow, nullable=False)
     content = db.Column(db.String, nullable=False)
     likes = db.Column(db.Integer, default=0)
     comments = db.Column(db.Integer, default=0)
@@ -19,45 +17,23 @@ class Post(db.Model):
     link = db.Column(db.String, nullable=True)
     type = db.Column(db.String, nullable=False, default='Post')
     description = db.Column(db.String, nullable=True)
+
+    # Define relationships if necessary
     # target = db.relationship('Target', back_populates='posts')
-
-    @classmethod
-    def create(cls, account_id, content, domain, link=None, hashtag=None, description=None):
-        post = cls(account_id=account_id, content=content, domain=domain, link=link, hashtag=hashtag, description=description)
-        db.session.add(post)
-        db.session.commit()
-        return post
-
-    def update(self, **kwargs):
-        for key, value in kwargs.items():
-            setattr(self, key, value)
-        db.session.commit()
-
-    def delete(self):
-        db.session.delete(self)
-        db.session.commit()
-
-    @classmethod
-    def get_all(cls):
-        return cls.query.all()
-
-    @classmethod
-    def get_by_id(cls, id):
-        return cls.query.get(id)
 
     def serialize(self):
         return {
             'id': self.id,
             'account_id': self.account_id,
-            'nuance_id': self.nuance_id,
-            'date': self.date.isoformat(),
+            'nuance': self.nuance,
+            'post_time': self.post_time.isoformat() if self.post_time else None,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
             'content': self.content,
             'likes': self.likes,
             'comments': self.comments,
             'shares': self.shares,
-            'domain': self.domain,
+            'platform': self.platform,
             'link': self.link,
-            'hashtag': self.hashtag,
             'type': self.type,
             'description': self.description
         }

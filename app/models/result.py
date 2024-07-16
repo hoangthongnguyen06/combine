@@ -5,8 +5,8 @@ class Result(db.Model):
     __tablename__ = 'TCTT_Result'
 
     id = db.Column(db.String, primary_key=True)
-    account_id = db.Column(db.String, db.ForeignKey('targets.id'))
-    post_id = db.Column(db.String, db.ForeignKey('posts.id'))
+    account_id = db.Column(db.String, db.ForeignKey('TCTT_Target.id'))
+    post_id = db.Column(db.String, db.ForeignKey('TCTT_Posts.id'))
     bots_number = db.Column(db.Integer)
     completed_time = db.Column(db.Time)
     status = db.Column(db.String(20), default='Processing')

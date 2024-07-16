@@ -2,41 +2,54 @@ import requests
 from app.models import Post
 from app import db
 from datetime import datetime
-
-payload = {
-    "trends": [],
-    "keywords": [],
-    "sources": [
-        1,
-        2,
-        4,
-        5,
-        8,
-        9,
-        12
-    ],
-    "sentiments": [],
-    "domains": [],
-    "author_names": [],
-    "author_ids": [],
-    "wall_ids": [],
-    "article_types": [],
-    "date_from": "2024/01/13 00:00:00",
-    "date_to": "2024/07/13 23:59:59",
-    "pinned": "null",
-    "get_snippet": "true",
-    "order": 3,
-    "similar_master": 0,
-    "is_spam": "false",
-    "flow_ids": [],
-    "topic_ids": [],
-    "profile_group_id": "null",
-    "page": 0,
-    "size": 10000
-}
+from app.models import Target
+author_ids = [author_id for (author_id,) in db.session.query(Target.id)
+              .filter(Target.platform == 'Facebook')
+              .all()]
+from datetime import datetime, timedelta
 
 
 def update_posts_from_api(api_url, headers=None, app=None):
+        # Tạo ngày hôm qua và hôm nay
+    today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+    yesterday = today - timedelta(days=1)
+
+    # Cập nhật payload với thời gian tương ứng
+
+    payload = {
+        "trends": [],
+        "keywords": [],
+        "sources": [
+            1,
+            2,
+            4,
+            5,
+            8,
+            9,
+            12
+        ],
+        "sentiments": [],
+        "domains": [],
+        "author_names": [],
+        "author_ids":author_ids,
+        "wall_ids": [],
+        "article_types": [],
+        "date_from": "2024/01/15 00:00:00",
+        "date_to": "2024/02/01 23:59:59",
+        "pinned": "null",
+        "get_snippet": "true",
+        "order": "3",
+        "similar_master": "0",
+        "is_spam": "false",
+        "flow_ids": [],
+        "topic_ids": [],
+        "profile_group_id": "null",
+        "page": "0",
+        "size": "2500"
+    }
+    # payload["date_from"] = yesterday.strftime("%Y/%m/%d 00:00:00")
+    # payload["date_to"] = today.strftime("%Y/%m/%d 23:59:59")
+
     with app.app_context():
         response = requests.post(api_url, json=payload,
                                  headers=headers, verify=False)
@@ -53,7 +66,7 @@ def update_posts_from_api(api_url, headers=None, app=None):
                     "platform": hit["domain"],
                     "link": hit["url"],
                     "type": hit["article_type"],
-                    "description": hit["description"],
+                    "description": hit["summary"],
                     "created_at": hit["created_time"]
                 }
                 # Xử lý sắc thái

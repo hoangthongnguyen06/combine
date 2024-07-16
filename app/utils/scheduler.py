@@ -51,7 +51,7 @@ def start_scheduler(app):
         try:
             # scheduler.add_job(func=update_topics_from_api, trigger="interval", minutes=0.5, args=(
             #     endpoints.APIPlatformEndpoints.GET_TOPIC.value, headers, app))
-            scheduler.add_job(func=update_posts_from_api, trigger="interval", minutes=0.5, args=(
+            scheduler.add_job(func=update_posts_from_api, trigger="interval", minutes=5, args=(
                 endpoints.APIPlatformEndpoints.POST.value, headers, app))
 
             scheduler.start()
