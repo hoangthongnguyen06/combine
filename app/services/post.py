@@ -21,7 +21,7 @@ payload = {
     "author_ids": [],
     "wall_ids": [],
     "article_types": [],
-    "date_from": "2024/07/13 00:00:00",
+    "date_from": "2024/01/13 00:00:00",
     "date_to": "2024/07/13 23:59:59",
     "pinned": "null",
     "get_snippet": "true",
@@ -32,7 +32,7 @@ payload = {
     "topic_ids": [],
     "profile_group_id": "null",
     "page": 0,
-    "size": 5000
+    "size": 10000
 }
 
 
