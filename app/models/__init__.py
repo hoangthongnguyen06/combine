@@ -5,3 +5,4 @@ from .topic import Topic
 from .object import Object
 from .result import Result
 from .statistics import Statistics
+from .channel import Channel
