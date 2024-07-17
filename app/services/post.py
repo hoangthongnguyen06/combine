@@ -8,7 +8,7 @@ author_ids = [author_id for (author_id,) in db.session.query(Target.id)
               .all()]
 from datetime import datetime, timedelta
 global page
-page = 55
+page = 66
 def update_posts_from_api(api_url, headers=None, app=None):
     # Tạo ngày hôm qua và hôm nay
     today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
@@ -47,8 +47,8 @@ def update_posts_from_api(api_url, headers=None, app=None):
         "page": page,
         "size": "1000"
     }
-    # payload["date_from"] = yesterday.strftime("%Y/%m/%d 00:00:00")
-    # payload["date_to"] = today.strftime("%Y/%m/%d 23:59:59")
+    payload["date_from"] = yesterday.strftime("%Y/%m/%d 00:00:00")
+    payload["date_to"] = today.strftime("%Y/%m/%d 23:59:59")
 
     with app.app_context():
         response = requests.post(api_url, json=payload,
