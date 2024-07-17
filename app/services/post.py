@@ -7,15 +7,15 @@ author_ids = [author_id for (author_id,) in db.session.query(Target.id)
               .filter(Target.platform == 'Facebook')
               .all()]
 from datetime import datetime, timedelta
-
-
+global page
+page = 0
 def update_posts_from_api(api_url, headers=None, app=None):
         # Tạo ngày hôm qua và hôm nay
     today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
     yesterday = today - timedelta(days=1)
 
     # Cập nhật payload với thời gian tương ứng
-
+    global page
     payload = {
         "trends": [],
         "keywords": [],
@@ -34,8 +34,8 @@ def update_posts_from_api(api_url, headers=None, app=None):
         "author_ids":author_ids,
         "wall_ids": [],
         "article_types": [],
-        "date_from": "2024/01/15 00:00:00",
-        "date_to": "2024/02/01 23:59:59",
+        "date_from": "2024/01/01 00:00:00",
+        "date_to": "2024/07/16 23:59:59",
         "pinned": "null",
         "get_snippet": "true",
         "order": "3",
@@ -44,8 +44,8 @@ def update_posts_from_api(api_url, headers=None, app=None):
         "flow_ids": [],
         "topic_ids": [],
         "profile_group_id": "null",
-        "page": "0",
-        "size": "2500"
+        "page": page,
+        "size": "1000"
     }
     # payload["date_from"] = yesterday.strftime("%Y/%m/%d 00:00:00")
     # payload["date_to"] = today.strftime("%Y/%m/%d 23:59:59")
@@ -56,6 +56,7 @@ def update_posts_from_api(api_url, headers=None, app=None):
         if response.status_code == 200:
             api_data = response.json()
             print(api_data)
+            page += 1
             for hit in api_data["data"]["hits"]:
                 post_data = {
                     "id": hit["id"],
