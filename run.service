@@ -1,0 +1,12 @@
+[Unit]
+Description=TCTT Application
+After=network.target
+
+[Service]
+User=test
+WorkingDirectory=/home/test/back-end/combine
+ExecStart=/home/test/back-end/combine/venv/bin/python3 /home/test/back-end/combine/run.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
