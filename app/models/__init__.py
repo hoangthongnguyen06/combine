@@ -4,3 +4,4 @@ from .post import Post
 from .topic import Topic
 from .object import Object
 from .result import Result
+from .statistics import Statistics

@@ -8,9 +8,9 @@ author_ids = [author_id for (author_id,) in db.session.query(Target.id)
               .all()]
 from datetime import datetime, timedelta
 global page
-page = 0
+page = 55
 def update_posts_from_api(api_url, headers=None, app=None):
-        # Tạo ngày hôm qua và hôm nay
+    # Tạo ngày hôm qua và hôm nay
     today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
     yesterday = today - timedelta(days=1)
 
@@ -77,7 +77,6 @@ def update_posts_from_api(api_url, headers=None, app=None):
                     post_data["nuance"] = 'Trung tính'
                 elif hit.get('sentiment') == 1:
                     post_data["nuance"] = 'Tích cực'
-                # Xử lý hashtag
 
                 # Xử lý thời gian tạo
                 if hit.get('published_timestamp'):
