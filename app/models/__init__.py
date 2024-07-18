@@ -6,3 +6,5 @@ from .object import Object
 from .result import Result
 from .statistics import Statistics
 from .channel import Channel
+from .topic_new import Topic_new
+from .topic_day import Topic_day
