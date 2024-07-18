@@ -8,5 +8,11 @@ class APIPlatformEndpoints(Enum):
     GET_TARGET = f'{Config.PLATFORM_API_URL}/api/platform/profile/user/search'
     GET_POST_NUMBER_WITH_LOCATION = f'{Config.PLATFORM_API_URL}/api/platform/statistic/demographic'
     GET_CHANNELS = '{Config.PLATFORM_API_URL}/api/platform/youtube/search'
-class APISiderEndpoints(Enum):
+
+class APISpiderEndpoints(Enum):
+    LOGIN = f'{Config.SPYDER_API_URL}/api/admin-mgt/v1/account/login_v2'
+
+
+
+class APICTEndpoints(Enum):
     LOGIN = f''
