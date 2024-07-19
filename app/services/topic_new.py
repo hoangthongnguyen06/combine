@@ -59,16 +59,18 @@ def update_topics_new_from_api(api_url, headers_platform=None,headers_spyder=Non
             try:
                 response = requests.post(api_url, json=payload_platform, headers=headers_spyder, verify=False)
                 if response.status_code == 200:
-                    api_data = response.json().get("data", {}).get("items", [])
+                    api_data = response.json().get("result", {}).get("data", [])
                     for item in api_data:
                         topic_data = {
                             "uid": str(item["id"]),  # Chuyển đổi thành chuỗi
                             "name": item["name"],
-                            "parent_id": item.get("topic_parent_id"),
-                            "assign": item.get("org_name"),
-                            "system": "platform"
+                            "assign": item.get("create_by"),
+                            "system": "spyder"
                         }
-                        end_at = item.get("end_at")
+                        if item.get("topic_parent_id"):
+                            topic_data["parent_id"] =  item.get("topic_parent_id"),
+                        else: topic_data["parent_id"] == ""
+                        end_at = item.get("expired_date")
                         if end_at:
                             end_at_datetime = datetime.strptime(end_at, "%Y/%m/%d %H:%M:%S")
                             if end_at_datetime < datetime.now():
