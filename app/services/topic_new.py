@@ -18,7 +18,7 @@ payload_platform = {
 
 def update_topics_new_from_api(api_url, headers_platform=None,headers_spyder=None, app=None):
     with app.app_context():
-        if "platform" in api_url: 
+        if "platform" in api_url:
             try:
                 response = requests.post(api_url, json=payload_platform, headers=headers_platform, verify=False)
                 if response.status_code == 200:
