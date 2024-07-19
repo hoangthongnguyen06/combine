@@ -10,9 +10,8 @@ from app.services.statistic import update_location_post_counts_from_api
 from app import config, endpoints
 import requests
 from app import create_app
-import urllib3
-import certifi
 from urllib3.exceptions import InsecureRequestWarning
+from app.services.topic_day import update_sentiment_topic_from_api
 # from app.services.post import update_posts_from_api
 
 # Bỏ qua cảnh báo không xác minh yêu cầu không an toàn
@@ -62,20 +61,23 @@ def start_scheduler(app):
         # Get access token
         access_token_platform = get_access_token(
             config.Config.USERNAME_PLATFORM, config.Config.PASSWORD_PLATFORM, "platform")
-        access_token_spyder = get_access_token(
-            config.Config.USERNAME_SPYDER, config.Config.PASSWORD_SPYDER, "spyder")
-        if not access_token_spyder or not access_token_platform:
+        # access_token_spyder = get_access_token(
+        #     config.Config.USERNAME_SPYDER, config.Config.PASSWORD_SPYDER, "spyder")
+        # if not access_token_spyder or not access_token_platform:
+        if not access_token_platform:
             print("Failed to start scheduler. Could not obtain access token.")
             return
 
         headers_platform = {"Authorization": f"Bearer {access_token_platform}"}
-        headers_spyder = {"Authorization": f"Bearer {access_token_spyder}"}
+        # headers_spyder = {"Authorization": f"Bearer {access_token_spyder}"}
         # Schedule jobs with updated functions
         try:
             # scheduler.add_job(func=update_topics_from_api, trigger="interval", minutes=0.5, args=(
             #     endpoints.APIPlatformEndpoints.GET_TOPIC.value, headers, app))
-            scheduler.add_job(func=update_topics_new_from_api, trigger="interval", minutes=0.5, args=(
-                endpoints.APIPlatformEndpoints.GET_TOPIC.value, headers_platform, headers_spyder, app))
+            scheduler.add_job(func=update_topics_new_from_api, trigger="interval", minutes=5, args=(
+                endpoints.APIPlatformEndpoints.GET_TOPIC.value, headers_platform, app))
+            scheduler.add_job(func=update_sentiment_topic_from_api, trigger="interval", minutes=5, args=(
+                endpoints.APIPlatformEndpoints.SAC_THAI_THEO_CHU_DE.value, headers_platform, app))
             # scheduler.add_job(func=update_posts_from_api, trigger="interval", minutes=0.5, args=(
             #     endpoints.APIPlatformEndpoints.POST.value, headers_platform, headers_spyder, app))
             # scheduler.add_job(func=update_location_post_counts_from_api, trigger="interval", minutes=0.5, args=(
