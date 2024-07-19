@@ -9,7 +9,7 @@ class APIPlatformEndpoints(Enum):
     GET_TARGET = f'{Config.PLATFORM_API_URL}/api/platform/profile/user/search'
     GET_POST_NUMBER_WITH_LOCATION = f'{Config.PLATFORM_API_URL}/api/platform/statistic/demographic'
     GET_CHANNELS = f'{Config.PLATFORM_API_URL}/api/platform/youtube/search'
-
+    SAC_THAI_THEO_CHU_DE = f"{Config.PLATFORM_API_URL}/api/platform/statistic/statistic-source-by-days"
 
 class APISpyderEndpoints(Enum):
     LOGIN = f'{Config.SPYDER_API_URL}/api/admin-mgt/v1/account/login_v2'

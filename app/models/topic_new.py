@@ -9,18 +9,18 @@ class Topic_new(db.Model):
     parent_id = db.Column(db.String)
     parent_name = db.Column(db.String)
     status = db.Column(db.String(20), default='Active')
-    asign = db.Column(db.String(20))
+    assign = db.Column(db.String(20))
     system = db.Column(db.String)
 
     @classmethod
-    def create(cls, uid, name, parent_id=None, parent_name=None, status='Active', asign=None, system=None):
+    def create(cls, uid, name, parent_id=None, parent_name=None, status='Active', assign=None, system=None):
         topic = cls(
             uid=uid,
             name=name,
             parent_id=parent_id,
             parent_name=parent_name,
             status=status,
-            asign=asign,
+            assign=assign,
             system=system
         )
         db.session.add(topic)
@@ -51,6 +51,6 @@ class Topic_new(db.Model):
             'parent_id': self.parent_id,
             'parent_name': self.parent_name,
             'status': self.status,
-            'asign': self.asign,
+            'assign': self.assign,
             'system': self.system
         }
