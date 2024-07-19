@@ -25,7 +25,7 @@ def update_topics_new_from_api(api_url, headers_platform=None,headers_spyder=Non
                     api_data = response.json().get("data", {}).get("items", [])
                     for item in api_data:
                         topic_data = {
-                            "id": str(item["id"]),  # Chuyển đổi thành chuỗi
+                            "uid": str(item["id"]),  # Chuyển đổi thành chuỗi
                             "name": item["name"],
                             "parent_id": item.get("topic_parent_id"),
                             "assign": item.get("org_name"),
@@ -62,7 +62,7 @@ def update_topics_new_from_api(api_url, headers_platform=None,headers_spyder=Non
                     api_data = response.json().get("data", {}).get("items", [])
                     for item in api_data:
                         topic_data = {
-                            "id": str(item["id"]),  # Chuyển đổi thành chuỗi
+                            "uid": str(item["id"]),  # Chuyển đổi thành chuỗi
                             "name": item["name"],
                             "parent_id": item.get("topic_parent_id"),
                             "assign": item.get("org_name"),

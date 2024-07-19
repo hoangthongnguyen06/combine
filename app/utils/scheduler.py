@@ -36,7 +36,7 @@ def get_access_token(username, password, system):
             print(
                 f"Platform: Failed to obtain access token. Status code: {response.status_code}")
             return None
-    if system == "spyder":
+    elif system == "spyder":
         login_url = endpoints.APISpyderEndpoints.LOGIN.value
         login_data = {
             'username': username,
@@ -52,6 +52,7 @@ def get_access_token(username, password, system):
             print(
                 f"Spyder: Failed to obtain access token. Status code: {response.status_code}")
             return None
+    return None
 
 
 def start_scheduler(app):
