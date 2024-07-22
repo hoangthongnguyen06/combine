@@ -14,8 +14,8 @@ class Topic_day(db.Model):
     date = db.Column(db.Date, default=datetime.utcnow)
     platform = db.Column(db.String, nullable=False)
     system = db.Column(db.String, nullable=False)
-    added_to_json = db.Colum(db.String, default="1")
-    
+    added_to_json = db.Column(db.String, default="1")
+
     @classmethod
     def create(cls, uid, id_topic, topic_name, sum_of_posts, positive_post, neutral_post, negative_post, date, platform, system):
         topic_day = cls(
