@@ -1,13 +1,13 @@
+import uuid
 from datetime import datetime
+from sqlalchemy.dialects.postgresql import UUID
 from app import db
-
 
 class Topic_day(db.Model):
     __tablename__ = 'TCTT_ChuDe_Ngay'
 
-    uid = db.Column(db.String, primary_key=True)
-    id_topic = db.Column(db.String, db.ForeignKey(
-        'TCTT_Chude.uid'), nullable=False)
+    uid = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id_topic = db.Column(db.String, db.ForeignKey('TCTT_ChuDe.id'), nullable=False)
     topic_name = db.Column(db.String(255), nullable=False)
     sum_of_posts = db.Column(db.Integer, nullable=False)
     positive_posts = db.Column(db.Integer, nullable=False)
@@ -16,19 +16,18 @@ class Topic_day(db.Model):
     date = db.Column(db.Date, default=datetime.utcnow)
     platform = db.Column(db.String, nullable=False)
     system = db.Column(db.String, nullable=False)
-    created_at = db.Column(db.Date, default=datetime.utcnow)
+    created_at = db.Column(db.TIMESTAMP(timezone=True), default=datetime.utcnow)
     added_to_json = db.Column(db.String, default="1")
 
     @classmethod
-    def create(cls, uid, id_topic, topic_name, sum_of_posts, positive_post, neutral_post, negative_post, date, platform, created_at, system):
+    def create(cls, id_topic, topic_name, sum_of_posts, positive_posts, neutral_posts, negative_posts, date, platform, created_at, system):
         topic_day = cls(
-            uid=uid,
             id_topic=id_topic,
             topic_name=topic_name,
             sum_of_posts=sum_of_posts,
-            positive_post=positive_post,
-            neutral_post=neutral_post,
-            negative_post=negative_post,
+            positive_posts=positive_posts,
+            neutral_posts=neutral_posts,
+            negative_posts=negative_posts,
             date=date,
             platform=platform,
             created_at=created_at,
@@ -57,15 +56,16 @@ class Topic_day(db.Model):
 
     def serialize(self):
         return {
-            'uid': self.uid,
+            'uid': str(self.uid),  # Convert UUID to string for serialization
             'id_topic': self.id_topic,
             'topic_name': self.topic_name,
             'sum_of_posts': self.sum_of_posts,
-            'positive_post': self.positive_post,
-            'neutral_post': self.neutral_post,
-            'negative_post': self.negative_post,
+            'positive_posts': self.positive_posts,
+            'neutral_posts': self.neutral_posts,
+            'negative_posts': self.negative_posts,
             'date': self.date.isoformat(),
             'platform': self.platform,
-            'created_at': self.created_at,
-            'system': self.system
+            'created_at': self.created_at.isoformat(),
+            'system': self.system,
+            'added_to_json': self.added_to_json
         }
