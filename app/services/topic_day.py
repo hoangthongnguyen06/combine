@@ -55,7 +55,7 @@ def update_sentiment_topic_from_api(api_url, headers_platform=None, app=None):
 
     with app.app_context():
         if Config.PLATFORM_API_URL in api_url:
-            for topic_id, topic_name, keyword_platform in results_platform:
+            for id, name, keyword_platform in results_platform:
                 # Lặp qua từng từ khóa trong keyword_platform
                 for keyword in keyword_platform:
                     payload_platform["topic_ids"] = [keyword]
@@ -68,8 +68,8 @@ def update_sentiment_topic_from_api(api_url, headers_platform=None, app=None):
                                     for details_data_1 in details_data["data"]:
                                         extracted_data = {
                                             "uid": str(uuid.uuid4()),
-                                            "id_topic": topic_id,
-                                            "topic_name": topic_name,
+                                            "id_topic": id,
+                                            "topic_name": name,
                                             "date": details_data["date"],
                                             "sum_of_posts": details_data_1["total_count"],
                                             "positive_posts": details_data_1["positive_count"],
