@@ -76,6 +76,7 @@ def update_sentiment_topic_from_api(api_url, headers_platform=None, app=None):
                                         "neutral_posts": details_data_1["neutral_count"],
                                         "negative_posts": details_data_1["negative_count"],
                                         "system": "platform",
+                                        "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                                         "added_to_json": "0"
                                     }
                                     # Xu ly nen tang cua tin bai

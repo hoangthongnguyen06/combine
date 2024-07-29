@@ -1,11 +1,13 @@
 from datetime import datetime
 from app import db
 
+
 class Topic_day(db.Model):
     __tablename__ = 'TCTT_ChuDe_Ngay'
 
     uid = db.Column(db.String, primary_key=True)
-    id_topic = db.Column(db.String, db.ForeignKey('TCTT_Chude.uid'), nullable=False)
+    id_topic = db.Column(db.String, db.ForeignKey(
+        'TCTT_Chude.uid'), nullable=False)
     topic_name = db.Column(db.String(255), nullable=False)
     sum_of_posts = db.Column(db.Integer, nullable=False)
     positive_posts = db.Column(db.Integer, nullable=False)
@@ -14,10 +16,11 @@ class Topic_day(db.Model):
     date = db.Column(db.Date, default=datetime.utcnow)
     platform = db.Column(db.String, nullable=False)
     system = db.Column(db.String, nullable=False)
+    created_at = db.Column(db.Date, default=datetime.utcnow)
     added_to_json = db.Column(db.String, default="1")
 
     @classmethod
-    def create(cls, uid, id_topic, topic_name, sum_of_posts, positive_post, neutral_post, negative_post, date, platform, system):
+    def create(cls, uid, id_topic, topic_name, sum_of_posts, positive_post, neutral_post, negative_post, date, platform, created_at, system):
         topic_day = cls(
             uid=uid,
             id_topic=id_topic,
@@ -28,6 +31,7 @@ class Topic_day(db.Model):
             negative_post=negative_post,
             date=date,
             platform=platform,
+            created_at=created_at,
             system=system
         )
         db.session.add(topic_day)
@@ -62,5 +66,6 @@ class Topic_day(db.Model):
             'negative_post': self.negative_post,
             'date': self.date.isoformat(),
             'platform': self.platform,
+            'created_at': self.created_at,
             'system': self.system
         }
