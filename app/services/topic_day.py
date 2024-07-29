@@ -33,8 +33,8 @@ def update_sentiment_topic_from_api(api_url, headers_platform=None, app=None):
         ]
     }
 
-    # payload_platform["date_from"] = yesterday.strftime("%Y/%m/%d 00:00:00")
-    # payload_platform["date_to"] = today.strftime("%Y/%m/%d 23:59:59")
+    payload_platform["date_from"] = yesterday.strftime("%Y/%m/%d 00:00:00")
+    payload_platform["date_to"] = today.strftime("%Y/%m/%d 23:59:59")
 
     payload_spyder = {
         "time_range": {
