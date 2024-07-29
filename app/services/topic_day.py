@@ -6,7 +6,7 @@ import uuid
 from app.models.topic_new import Topic_new
 from app.config import Config
 from app.models.topic_day import Topic_day
-results_platform = db.session.query(Topic_new.uid, Topic_new.name, Topic_new.keyword_platform).all()
+results_platform = db.session.query(Topic_new.id, Topic_new.name, Topic_new.keyword_platform).all()
 # page = 66
 # results_spyder = db.session.query(Topic_new.uid, Topic_new.name).filter(
 #     Topic_new.system == 'spyder').all()
