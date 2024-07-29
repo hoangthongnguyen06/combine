@@ -23,3 +23,6 @@ class APISpyderEndpoints(Enum):
     PHAN_BO_KENH = f"{Config.SPYDER_API_URL}/api/category_management/v1/report/chart/article/source_type"
     THONG_KE_TUONG_TAC = f"{Config.SPYDER_API_URL}/api/category_management/v1/report/overview/stats/list"
     TONG_SAC_THAI = f"{Config.SPYDER_API_URL}/api/category_management/v1/report/chart/sentiment"
+    
+class APISupabase(Enum):
+    CHU_DE = f'{Config.URL_SUPABASE}/chude/'

@@ -14,3 +14,4 @@ class Config:
     PASSWORD_PLATFORM = os.getenv('PASSWORD_PLATFORM', 'platform_password')
     USERNAME_SPYDER = os.getenv('USERNAME_SPYDER', 'spyder_username')
     PASSWORD_SPYDER = os.getenv('PASSWORD_SPYDER', 'spyder_password')
+    URL_SUPABASE = os.getenv('URL_SUPABASE', "http://127.0.0.1")
