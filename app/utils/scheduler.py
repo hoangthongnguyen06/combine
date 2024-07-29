@@ -74,8 +74,8 @@ def start_scheduler(app):
         try:
             # scheduler.add_job(func=update_topics_from_api, trigger="interval", minutes=0.5, args=(
             #     endpoints.APIPlatformEndpoints.GET_TOPIC.value, headers, app))
-            scheduler.add_job(func=update_topics_new_from_api, trigger="interval", minutes=5, args=(
-                endpoints.APIPlatformEndpoints.GET_TOPIC.value, headers_platform, app))
+            # scheduler.add_job(func=update_topics_new_from_api, trigger="interval", minutes=5, args=(
+            #     endpoints.APIPlatformEndpoints.GET_TOPIC.value, headers_platform, app))
             scheduler.add_job(func=update_sentiment_topic_from_api, trigger="interval", minutes=5, args=(
                 endpoints.APIPlatformEndpoints.SAC_THAI_THEO_CHU_DE.value, headers_platform, app))
             # scheduler.add_job(func=update_posts_from_api, trigger="interval", minutes=0.5, args=(
