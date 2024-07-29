@@ -5,6 +5,7 @@ from datetime import datetime
 import uuid
 from app.models.topic_new import Topic_new
 from app.config import Config
+from uuid import UUID
 from app.models.topic_day import Topic_day
 results_platform = db.session.query(Topic_new.id, Topic_new.name, Topic_new.keyword_platform).all()
 # page = 66
@@ -68,7 +69,7 @@ def update_sentiment_topic_from_api(api_url, headers_platform=None, app=None):
                                     for details_data_1 in details_data["data"]:
                                         extracted_data = {
                                             "uid": str(uuid.uuid4()),
-                                            "id_topic": id,
+                                            "id_topic": UUID(id),
                                             "topic_name": name,
                                             "date": details_data["date"],
                                             "sum_of_posts": details_data_1["total_count"],
