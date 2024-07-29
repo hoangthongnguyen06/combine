@@ -75,7 +75,8 @@ def update_sentiment_topic_from_api(api_url, headers_platform=None, app=None):
                                         "positive_posts": details_data_1["positive_count"],
                                         "neutral_posts": details_data_1["neutral_count"],
                                         "negative_posts": details_data_1["negative_count"],
-                                        "system": "platform"
+                                        "system": "platform",
+                                        "added_to_json": "0"
                                     }
                                     # Xu ly nen tang cua tin bai
                                     if details_data_1["source_id"] == 1:

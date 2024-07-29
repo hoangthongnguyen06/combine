@@ -11,6 +11,7 @@ class Topic_new(db.Model):
     status = db.Column(db.String(20), default='Active')
     assign = db.Column(db.String(20))
     system = db.Column(db.String)
+    added_to_json = db.Column(db.String, default="1")
 
     @classmethod
     def create(cls, uid, name, parent_id=None, parent_name=None, status='Active', assign=None, system=None):

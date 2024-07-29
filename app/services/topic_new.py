@@ -33,7 +33,7 @@ def update_topics_new_from_api(api_url, headers_platform=None, app=None):
                             "name": item["name"],
                             "parent_id": item.get("topic_parent_id"),
                             "assign": item.get("org_name"),
-                            "system": "platform"
+                            "system": "platform",
                         }
                         end_at = item.get("end_at")
                         if end_at:
@@ -48,7 +48,9 @@ def update_topics_new_from_api(api_url, headers_platform=None, app=None):
                         if topic:
                             for key, value in topic_data.items():
                                 setattr(topic, key, value)
+                            topic.added_to_json = "2"   
                         else:
+                            topic_data["added_to_json"] = "0"
                             topic = Topic_new(**topic_data)
                             db.session.add(topic)
 
