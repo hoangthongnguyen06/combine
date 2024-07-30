@@ -69,7 +69,7 @@ def update_sentiment_topic_from_api(api_url, headers_platform=None, app=None):
                                     for details_data_1 in details_data["data"]:
                                         extracted_data = {
                                             "uid": str(uuid.uuid4()),
-                                            "id_topic": UUID(id),
+                                            "id_topic": id,
                                             "topic_name": name,
                                             "date": details_data["date"],
                                             "sum_of_posts": details_data_1["total_count"],
