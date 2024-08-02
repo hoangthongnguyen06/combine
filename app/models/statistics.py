@@ -10,15 +10,19 @@ class Statistics(db.Model):
     positive_count = db.Column(db.Integer, nullable=False)
     neutral_count = db.Column(db.Integer, nullable=False)
     negative_count = db.Column(db.Integer, nullable=False)
+    date = db.Column(db.Date, default=datetime.utcnow)
+    created_at = db.Column(db.TIMESTAMP(timezone=True), default=datetime.utcnow)
     #created_at = db.Column(db.TIMESTAMP(timezone=True), default=datetime.utcnow, nullable=False)
 
-    def __init__(self, id, location, total_count, positive_count, neutral_count, negative_count):
+    def __init__(self, id, location, total_count, positive_count, neutral_count, negative_count, date, created_at):
         self.id = id
         self.location = location
         self.total_count = total_count
         self.positive_count = positive_count
         self.neutral_count = neutral_count
         self.negative_count = negative_count
+        self.date = date
+        self.created_at = created_at
 
     def __repr__(self):
         return f'<Statistics {self.location}>'
