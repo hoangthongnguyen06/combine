@@ -132,9 +132,9 @@ def update_sentiment_topic_from_api(api_url, headers=None, app=None):
                                             "topic_name": name,
                                             "date": datetime.now().strftime("%Y-%m-%d"),
                                             "sum_of_posts": int(details_data.get("total", 0)),
-                                            "positive_posts": None,  # Không có trong JSON trả về, bạn cần thêm logic để xác định giá trị này
+                                            "positive_posts": 0,  # Không có trong JSON trả về, bạn cần thêm logic để xác định giá trị này
                                             "neutral_posts": total_neutral_posts,
-                                            "negative_posts": None,  # Không có trong JSON trả về, bạn cần thêm logic để xác định giá trị này
+                                            "negative_posts": 0,  # Không có trong JSON trả về, bạn cần thêm logic để xác định giá trị này
                                             "system": "spyder",
                                             "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                                             "added_to_json": "0"
