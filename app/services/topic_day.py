@@ -113,9 +113,9 @@ def update_sentiment_topic_from_api(api_url, headers=None, app=None):
                         payload_spyder["category_id"] = keyword
                         try:
                             # response = requests.request("POST", api_url, headers=headers, data=payload_spyder)
-                            # response = requests.post("api_url", json=payload_spyder, headers=headers, verify=False)
-                            print(payload_spyder)
-                            response = requests.post("https://app.spyder.internal/api/category_management/v1/dashboard_topic/overall/sources", json=payload_spyder, headers=headers, verify=False)
+                            response = requests.post("api_url", json=payload_spyder, headers=headers, verify=False)
+                            # print(payload_spyder)
+                            # response = requests.post("https://app.spyder.internal/api/category_management/v1/dashboard_topic/overall/sources", json=payload_spyder, headers=headers, verify=False)
                             response.raise_for_status()
                         except requests.exceptions.RequestException as e:
                             print(f"Spyder: An error occurred with the request: {e}")

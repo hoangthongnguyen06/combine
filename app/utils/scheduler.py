@@ -44,7 +44,7 @@ def get_access_token(username, password, system):
         response = requests.post(login_url, json=login_data, verify=False)
 
         if response.status_code == 200:
-            access_token = response.json().get('data', {}).get('data', {}).get('token')
+            access_token = response.json().get('result', {}).get('access_token')
             print("Spyder: Successfully obtained access token.")
             return access_token
         else:
@@ -63,6 +63,7 @@ def start_scheduler(app):
             config.Config.USERNAME_PLATFORM, config.Config.PASSWORD_PLATFORM, "platform")
         access_token_spyder = get_access_token(
             config.Config.USERNAME_SPYDER, config.Config.PASSWORD_SPYDER, "spyder")
+        print
         # if not access_token_spyder or not access_token_platform:
         if not access_token_platform:
             print("Failed to start scheduler. Could not obtain access token.")
@@ -77,14 +78,14 @@ def start_scheduler(app):
             #     endpoints.APIPlatformEndpoints.GET_TOPIC.value, headers, app))
             # scheduler.add_job(func=update_topics_new_from_api, trigger="interval", minutes=5, args=(
             #     endpoints.APIPlatformEndpoints.GET_TOPIC.value, headers_platform, app))
-            # scheduler.add_job(func=update_sentiment_topic_from_api, trigger="interval", minutes=5, args=(
-            #     endpoints.APIPlatformEndpoints.SAC_THAI_THEO_CHU_DE.value, headers_platform, app))
+            scheduler.add_job(func=update_sentiment_topic_from_api, trigger="interval", minutes=5, args=(
+                endpoints.APIPlatformEndpoints.SAC_THAI_THEO_CHU_DE.value, headers_platform, app))
             scheduler.add_job(func=update_sentiment_topic_from_api, trigger="interval", minutes=0.5, args=(
                 endpoints.APISpyderEndpoints.SAC_THAI_THEO_CHU_DE.value, headers_spyder, app))
             # scheduler.add_job(func=update_posts_from_api, trigger="interval", minutes=0.5, args=(
             #     endpoints.APIPlatformEndpoints.POST.value, headers_platform, headers_spyder, app))
-            # scheduler.add_job(func=update_location_post_counts_from_api, trigger="interval", minutes=5, args=(
-            #     endpoints.APIPlatformEndpoints.GET_POST_NUMBER_WITH_LOCATION.value, headers_platform, app))
+            scheduler.add_job(func=update_location_post_counts_from_api, trigger="interval", minutes=5, args=(
+                endpoints.APIPlatformEndpoints.GET_POST_NUMBER_WITH_LOCATION.value, headers_platform, app))
             scheduler.start()
             print("Scheduler started successfully.")
         except Exception as e:
