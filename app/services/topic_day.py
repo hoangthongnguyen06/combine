@@ -112,10 +112,15 @@ def update_sentiment_topic_from_api(api_url, headers=None, app=None):
                     for keyword in keyword_spyder:
                         payload_spyder["category_id"] = keyword
                         try:
-                            response = requests.post(api_url, json=payload_spyder,
-                                                    headers=headers, verify=False)
+                            response = requests.post(api_url, json=payload_spyder, headers=headers, verify=False)
+                            response.raise_for_status()
+                        except requests.exceptions.RequestException as e:
+                            print(f"Spyder: An error occurred with the request: {e}")
+                            continue  # Skip to the next keyword
+
+                        try:
                             if response.status_code == 200:
-                                for details_data in response["result"].get("data", []):
+                                for details_data in response.json()["result"].get("data", []):
                                     if details_data.get("data"):
                                         total_neutral_posts = sum(item.get("total", 0) for item in details_data["data"])
                                         extracted_data = {
@@ -131,7 +136,7 @@ def update_sentiment_topic_from_api(api_url, headers=None, app=None):
                                             "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                                             "added_to_json": "0"
                                         }
-                                            # Xử lý nền tảng của tin bài
+                                        # Xử lý nền tảng của tin bài
                                         platform_mapping = {
                                             11: "Trang điện tử",
                                             2: "Blog",
@@ -139,20 +144,21 @@ def update_sentiment_topic_from_api(api_url, headers=None, app=None):
                                             1: "Facebook",
                                             4: "Youtube",
                                         }
-                                        extracted_data["platform"] = platform_mapping.get(details_data_1["source_type"], "Unknown")
+                                        extracted_data["platform"] = platform_mapping.get(details_data["source_type"], "Unknown")
 
-                                        top = Topic_day.query.filter_by(uid=extracted_data['uid']).first()
-                                        if top:
-                                            for key, value in extracted_data.items():
-                                                setattr(top, key, value)
-                                            db.session.commit()
-                                        else:
-                                            new_obj = Topic_day(**extracted_data)
-                                            db.session.add(new_obj)
-                                            db.session.commit()
+                                        try:
+                                            top = Topic_day.query.filter_by(uid=extracted_data['uid']).first()
+                                            if top:
+                                                for key, value in extracted_data.items():
+                                                    setattr(top, key, value)
+                                                db.session.commit()
+                                            else:
+                                                new_obj = Topic_day(**extracted_data)
+                                                db.session.add(new_obj)
+                                                db.session.commit()
+                                        except Exception as db_e:
+                                            print(f"An error occurred while saving to the database: {db_e}")
                             else:
                                 print(f"Failed to fetch objects: {response.status_code}")
-                        except requests.exceptions.RequestException as e:
-                            print(f"An error occurred with the request: {e}")
                         except Exception as e:
                             print(f"An unexpected error occurred: {e}")
