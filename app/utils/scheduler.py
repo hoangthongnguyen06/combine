@@ -59,16 +59,16 @@ def start_scheduler(app):
 
     with app.app_context():
         # Get access token
-        access_token_platform = get_access_token(
-            config.Config.USERNAME_PLATFORM, config.Config.PASSWORD_PLATFORM, "platform")
+        # access_token_platform = get_access_token(
+        #     config.Config.USERNAME_PLATFORM, config.Config.PASSWORD_PLATFORM, "platform")
         access_token_spyder = get_access_token(
             config.Config.USERNAME_SPYDER, config.Config.PASSWORD_SPYDER, "spyder")
         # if not access_token_spyder or not access_token_platform:
-        if not access_token_platform:
-            print("Failed to start scheduler. Could not obtain access token.")
-            return
+        # if not access_token_platform:
+        #     print("Failed to start scheduler. Could not obtain access token.")
+        #     return
 
-        headers_platform = {"Authorization": f"Bearer {access_token_platform}"}
+        # headers_platform = {"Authorization": f"Bearer {access_token_platform}"}
         headers_spyder = {"Authorization": f"Bearer {access_token_spyder}"}
         # Schedule jobs with updated functions
         try:
