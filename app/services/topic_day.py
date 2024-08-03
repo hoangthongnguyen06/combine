@@ -111,7 +111,6 @@ def update_sentiment_topic_from_api(api_url, headers=None, app=None):
                     # Lặp qua từng từ khóa trong keyword_spyder
                     for keyword in keyword_spyder:
                         payload_spyder["category_id"] = keyword
-                        print(payload_spyder)
                         try:
                             # response = requests.request("POST", api_url, headers=headers, data=payload_spyder)
                             # response = requests.post("api_url", json=payload_spyder, headers=headers, verify=False)
