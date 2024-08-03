@@ -113,7 +113,7 @@ def update_sentiment_topic_from_api(api_url, headers=None, app=None):
                         payload_spyder["category_id"] = keyword
                         print(payload_spyder)
                         try:
-                            response = requests.request("POST", api_url, headers=headers, data=payload_spyder).text()
+                            response = requests.request("POST", api_url, headers=headers, json=payload_spyder, verify=False)
                             # response = requests.post(api_url, json=payload_spyder, headers=headers, verify=False)
                             # response.raise_for_status()
                         except requests.exceptions.RequestException as e:
