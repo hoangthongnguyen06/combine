@@ -59,17 +59,18 @@ def start_scheduler(app):
 
     with app.app_context():
         # Get access token
-        # access_token_platform = get_access_token(
-        #     config.Config.USERNAME_PLATFORM, config.Config.PASSWORD_PLATFORM, "platform")
+        access_token_platform = get_access_token(
+            config.Config.USERNAME_PLATFORM, config.Config.PASSWORD_PLATFORM, "platform")
         access_token_spyder = get_access_token(
             config.Config.USERNAME_SPYDER, config.Config.PASSWORD_SPYDER, "spyder")
         # if not access_token_spyder or not access_token_platform:
-        # if not access_token_platform:
-        #     print("Failed to start scheduler. Could not obtain access token.")
-        #     return
-
-        # headers_platform = {"Authorization": f"Bearer {access_token_platform}"}
+        if not access_token_platform:
+            print("Failed to start scheduler. Could not obtain access token.")
+            return
+        access_token_spyder = "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc3QTVCRDZERDBDNTkyODA4QkYzRTQzODZGNTEzRDhEIiwidHlwIjoiYXQrand0In0.eyJpc3MiOiJodHRwOi8vMTAuOS4xLjE1MTozMTI1OCIsIm5iZiI6MTcyMjY3MDg4MywiaWF0IjoxNzIyNjcwODgzLCJleHAiOjE3MjMyNzU2ODMsImF1ZCI6IkFkbWluQ2xpZW50SWRfYXBpIiwic2NvcGUiOlsiQWRtaW5DbGllbnRJZF9hcGkiLCJyb2xlcyIsIm9mZmxpbmVfYWNjZXNzIl0sImFtciI6WyJwd2QiXSwiY2xpZW50X2lkIjoiQWRtaW5DbGllbnRJZCIsInN1YiI6ImU4YjdkMGE5LWY5ZTgtNGIxYi1iZTM2LTJiZWYwODA1ZDVlZSIsImF1dGhfdGltZSI6MTcyMjY3MDg4MywiaWRwIjoibG9jYWwiLCJuYW1lIjoiYWRtaW44NiJ9.KTCrZkrHh6HBgFUeswOlNBA-f0qfdYTCcQ4K0OHGxyWB0UeD6Xgi-G1Xo1mb84P_nAflE63T43mZKSuYkqQBLEdokpwyRrZUeK-22nbKrw7QT3w5Ft9KYpTpbAzfspiePIBPR9M3AVB-4KLjPMA20_ttUwEyqF9BGUN6FZckE2GaVAbuZkbXDjd2PTu-b97A6JijwOWgHe0P4to9l4huHaIVd1UbCHvEvOo_58AemFvqr0C4mnehgkAcG4LumTunQcHoCQqUn4gr8Hc71vtaHcWwXQ-kWxRJqHzD1JyFrf6xwxTns6BSt03MYC9STFaBYvLXbI6UuqPb-yxXb5hXig"
+        headers_platform = {"Authorization": f"Bearer {access_token_platform}"}
         headers_spyder = {"Authorization": f"Bearer {access_token_spyder}"}
+
         # Schedule jobs with updated functions
         try:
             # scheduler.add_job(func=update_topics_from_api, trigger="interval", minutes=0.5, args=(
