@@ -61,15 +61,15 @@ def start_scheduler(app):
         # Get access token
         access_token_platform = get_access_token(
             config.Config.USERNAME_PLATFORM, config.Config.PASSWORD_PLATFORM, "platform")
-        # access_token_spyder = get_access_token(
-        #     config.Config.USERNAME_SPYDER, config.Config.PASSWORD_SPYDER, "spyder")
+        access_token_spyder = get_access_token(
+            config.Config.USERNAME_SPYDER, config.Config.PASSWORD_SPYDER, "spyder")
         # if not access_token_spyder or not access_token_platform:
         if not access_token_platform:
             print("Failed to start scheduler. Could not obtain access token.")
             return
 
         headers_platform = {"Authorization": f"Bearer {access_token_platform}"}
-        # headers_spyder = {"Authorization": f"Bearer {access_token_spyder}"}
+        headers_spyder = {"Authorization": f"Bearer {access_token_spyder}"}
         # Schedule jobs with updated functions
         try:
             # scheduler.add_job(func=update_topics_from_api, trigger="interval", minutes=0.5, args=(
@@ -78,6 +78,8 @@ def start_scheduler(app):
             #     endpoints.APIPlatformEndpoints.GET_TOPIC.value, headers_platform, app))
             scheduler.add_job(func=update_sentiment_topic_from_api, trigger="interval", minutes=5, args=(
                 endpoints.APIPlatformEndpoints.SAC_THAI_THEO_CHU_DE.value, headers_platform, app))
+            scheduler.add_job(func=update_location_post_counts_from_api, trigger="interval", minutes=5, args=(
+                endpoints.APISpyderEndpoints.SAC_THAI_THEO_CHU_DE.value, headers_spyder, app))
             # scheduler.add_job(func=update_posts_from_api, trigger="interval", minutes=0.5, args=(
             #     endpoints.APIPlatformEndpoints.POST.value, headers_platform, headers_spyder, app))
             scheduler.add_job(func=update_location_post_counts_from_api, trigger="interval", minutes=5, args=(

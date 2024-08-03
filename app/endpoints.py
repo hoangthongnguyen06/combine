@@ -14,7 +14,7 @@ class APIPlatformEndpoints(Enum):
 class APISpyderEndpoints(Enum):
     LOGIN = f'{Config.SPYDER_API_URL}/api/admin-mgt/v1/account/login_v2'
     CHUYEN_MUC = f"{Config.SPYDER_API_URL}/api/category_management/v1/category/list/by_account"
-    SAC_THAI_CHU_DE = f"{Config.SPYDER_API_URL}/api/category_management/v1/dashboard_topic/overall/sentiment"
+    SAC_THAI_THEO_CHU_DE = f"{Config.SPYDER_API_URL}/api/category_management/v1/dashboard_topic/overall/sources"
     THONG_TIN_THAO_LUAN = f"{Config.SPYDER_API_URL}/api/category_management/v1/dashboard_topic/overall/buzz"
     THONG_TIN_NGUON_CHU_DE = f"{Config.SPYDER_API_URL}/api/category_management/v1/dashboard_topic/overall/sources"
     TOP_WEBSITE_BAI_DANG = f"{Config.SPYDER_API_URL}/api/category_management/v1/report_top/hot_content/top_domain/by_post"
