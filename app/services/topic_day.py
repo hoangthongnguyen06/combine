@@ -22,7 +22,7 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac, headers
 
     payload_platform_tuong_tac = {
         "date_from": today.strftime("%Y/%m/%d 00:00:00"),
-        "date_to": today.strftime("%Y-%m-%d %H:%M:%S"),
+        "date_to": today.strftime("%Y/%m/%d 23:59:59"),
         "sources": [8, 9, 12]
     }
 
