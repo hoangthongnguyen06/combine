@@ -32,15 +32,16 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac,  header
     payload_platform_sac_thai["date_from"] = yesterday.strftime("%Y/%m/%d 00:00:00")
     payload_platform_sac_thai["date_to"] = today.strftime("%Y/%m/%d 23:59:59")
     
+    now = datetime.now()
+    # Tính thời gian 00h của ngày hôm qua
+    yesterday_start = datetime(now.year, now.month, now.day) - timedelta(days=1)
     payload_platform_tuong_tac = {
     "date_from": yesterday_start.strftime("%Y-%m-%d %H:%M:%S"),
     "date_to": now.strftime("%Y-%m-%d %H:%M:%S"),
     "sources":[8,9,12]
     }
 
-    now = datetime.now()
-    # Tính thời gian 00h của ngày hôm qua
-    yesterday_start = datetime(now.year, now.month, now.day) - timedelta(days=1)
+
 
     # Tạo payload_spyder với time_range từ 00h ngày hôm qua đến giờ hiện tại
     payload_spyder_sac_thai = {
