@@ -59,6 +59,7 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac, headers
                             if response_sacthai.status_code == 200 and response_tuongtac.status_code == 200:
                                 
                                 for details_data in response_tuongtac.json().get("data", []):
+                                    print(details_data)
                                     for item in details_data.get("list", []):
                                         print("a" + item)
                                         source_id = item.get("source_id")
