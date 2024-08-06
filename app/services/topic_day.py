@@ -99,6 +99,7 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac,  header
                                                 "added_to_json": "0",
                                                 "reacts": totals[details_data_1["source_id"]]["share_count"] + totals[details_data_1["source_id"]]["like_count"] + totals[details_data_1["source_id"]]["comment_count"]
                                             }
+                                            print("d")
                                             # Xử lý nền tảng của tin bài
                                             platform_mapping = {
                                                 1: "Báo chí",
@@ -110,7 +111,7 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac,  header
                                                 12: "Tiktok"
                                             }
                                             extracted_data["platform"] = platform_mapping.get(details_data_1["source_id"], "Unknown")
-                                            # extracted_data["number_of_reactions"] = 
+                                            print("e")
                                             top = Topic_day.query.filter_by(uid=extracted_data['uid']).first()
                                             if top:
                                                 for key, value in extracted_data.items():
