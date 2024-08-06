@@ -60,6 +60,7 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac, headers
                                 
                                 for details_data in response_tuongtac.json().get("data", []):
                                     for item in details_data.get("list", []):
+                                        print(item)
                                         source_id = item.get("source_id")
                                         if source_id not in totals:
                                             totals[source_id] = {"share_count": 0, "like_count": 0, "comment_count": 0}
