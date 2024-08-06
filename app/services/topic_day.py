@@ -49,7 +49,7 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac, headers
                         try:
                             response_sacthai = requests.post(api_url_sac_thai, json=payload_platform_sac_thai, headers=headers, verify=False)
                             response_tuongtac = requests.post(api_url_tuong_tac, json=payload_platform_tuong_tac, headers=headers, verify=False)
-                            print(response_tuongtac)
+                            print(response_tuongtac.json())
                             response_sacthai.raise_for_status()
                             response_tuongtac.raise_for_status()
                         except requests.exceptions.RequestException as e:
