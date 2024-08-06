@@ -64,11 +64,13 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac,  header
                     for keyword in keyword_platform:
                         payload_platform_sac_thai["topic_ids"] = [keyword]
                         try:
+                            print("a")
                             response_sacthai = requests.post(api_url_sac_thai, json=payload_platform_sac_thai,
                                                     headers=headers, verify=False)
                             response_tuongtac = requests.post(api_url_tuong_tac, json=payload_platform_tuong_tac,
                                                     headers=headers, verify=False)
                             if response_sacthai.status_code == 200 and response_tuongtac.status_code == 200:
+                                print("b")
                                 totals = {}
                                 for details_data in response_tuongtac.json().get("data", []):
                                     for item in details_data["list"]:
@@ -80,6 +82,7 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac,  header
                                         totals[source_id]["comment_count"] += item["comment_count"]
 
                                 for details_data in response_sacthai.json().get("data", []):
+                                    print("c")
                                     if details_data.get("data"):
                                         for details_data_1 in details_data["data"]:
                                             extracted_data = {
