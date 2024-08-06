@@ -21,7 +21,7 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac, headers
     }
 
     payload_platform_tuong_tac = {
-        "date_from": yesterday.strftime("%Y-%m-%d %H:%M:%S"),
+        "date_from": today.strftime("%Y/%m/%d 00:00:00"),
         "date_to": today.strftime("%Y-%m-%d %H:%M:%S"),
         "sources": [8, 9, 12]
     }
@@ -66,6 +66,7 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac, headers
                                         totals[source_id]["share_count"] += item.get("share_count", 0)
                                         totals[source_id]["like_count"] += item.get("like_count", 0)
                                         totals[source_id]["comment_count"] += item.get("comment_count", 0)
+                                    print(totals)
                         except KeyError as e:
                             print(f"Key error when processing response_tuongtac: {e}")
                             continue
