@@ -54,10 +54,10 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac, headers
                         except requests.exceptions.RequestException as e:
                             print(f"An error occurred with the request: {e}")
                             continue
-
+                        totals = {}       
                         try:
                             if response_sacthai.status_code == 200 and response_tuongtac.status_code == 200:
-                                totals = {}
+                                
                                 for details_data in response_tuongtac.json().get("data", []):
                                     for item in details_data.get("list", []):
                                         source_id = item.get("source_id")
@@ -66,7 +66,7 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac, headers
                                         totals[source_id]["share_count"] += item.get("share_count", 0)
                                         totals[source_id]["like_count"] += item.get("like_count", 0)
                                         totals[source_id]["comment_count"] += item.get("comment_count", 0)
-                                    print(totals)
+                                print(totals.json())
                         except KeyError as e:
                             print(f"Key error when processing response_tuongtac: {e}")
                             continue
