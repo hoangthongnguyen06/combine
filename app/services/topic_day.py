@@ -62,14 +62,14 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac, headers
                                 for details_data in response_tuongtac.json().get("data", []):
                                     print(details_data)
                                     for item in details_data.get("list", []):
-                                        print("item", item)
+                                        # print("item", item)
                                         source_id = item.get("source_id")
                                         if source_id not in totals:
                                             totals[source_id] = {"share_count": 0, "like_count": 0, "comment_count": 0}
                                         totals[source_id]["share_count"] += item.get("share_count", 0)
                                         totals[source_id]["like_count"] += item.get("like_count", 0)
                                         totals[source_id]["comment_count"] += item.get("comment_count", 0)
-                                print("Total", totals)
+                                # print("Total", totals)
                         except KeyError as e:
                             print(f"Key error when processing response_tuongtac: {e}")
                             continue
