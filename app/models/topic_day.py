@@ -18,6 +18,7 @@ class Topic_day(db.Model):
     system = db.Column(db.String, nullable=False)
     created_at = db.Column(db.TIMESTAMP(timezone=True), default=datetime.utcnow)
     added_to_json = db.Column(db.String, default="1")
+    number_of_reactions = db.Column(db.Integer, nullable=False, default=0)
 
     @classmethod
     def create(cls, id_topic, topic_name, sum_of_posts, positive_posts, neutral_posts, negative_posts, date, platform, created_at, system):
