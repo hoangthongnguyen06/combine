@@ -94,7 +94,7 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac,  header
                                                 "system": "platform",
                                                 "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                                                 "added_to_json": "0",
-                                                "number_of_reactions": totals[details_data_1["source_id"]]["share_count"] + totals[details_data_1["source_id"]]["like_count"] + totals[details_data_1["source_id"]]["comment_count"]
+                                                "reacts": totals[details_data_1["source_id"]]["share_count"] + totals[details_data_1["source_id"]]["like_count"] + totals[details_data_1["source_id"]]["comment_count"]
                                             }
                                             # Xử lý nền tảng của tin bài
                                             platform_mapping = {
