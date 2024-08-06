@@ -63,6 +63,7 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac,  header
                     # Lặp qua từng từ khóa trong keyword_platform
                     for keyword in keyword_platform:
                         payload_platform_sac_thai["topic_ids"] = [keyword]
+                        payload_platform_tuong_tac["topic_ids"] = [keyword]
                         try:
                             print("a")
                             response_sacthai = requests.post(api_url_sac_thai, json=payload_platform_sac_thai,
@@ -80,7 +81,7 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac,  header
                                         totals[source_id]["share_count"] += item["share_count"]
                                         totals[source_id]["like_count"] += item["like_count"]
                                         totals[source_id]["comment_count"] += item["comment_count"]
-
+                                    print(totals)
                                 for details_data in response_sacthai.json().get("data", []):
                                     print("c")
                                     if details_data.get("data"):
