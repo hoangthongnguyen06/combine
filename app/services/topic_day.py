@@ -34,7 +34,6 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac, headers
             "from": yesterday_start.strftime("%Y-%m-%d %H:%M:%S"),
             "to": now.strftime("%Y-%m-%d %H:%M:%S")
         },
-        "category_id": 16506,
         "top": 10,
         "Topics": [-1]
     }
