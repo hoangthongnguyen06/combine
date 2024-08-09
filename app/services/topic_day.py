@@ -199,7 +199,7 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac, headers
                                         extracted_data["platform"] = platform_mapping.get(details_data["source_type"], "Unknown")
 
                                         try:
-                                            top = Topic_day.query.filter_by(id_topic=extracted_data["id_topic"], platform=extracted_data["platform"], date=extracted_data['date']).first()
+                                            top = Topic_day.query.filter_by(id_topic=extracted_data["id_topic"],system="spyder", platform=extracted_data["platform"], date=extracted_data['date']).first()
                                             if top:
                                                 extracted_data["added_to_json"] = "2"  # Updated value
                                                 for key, value in extracted_data.items():
