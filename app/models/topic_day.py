@@ -19,9 +19,9 @@ class Topic_day(db.Model):
     created_at = db.Column(db.TIMESTAMP(timezone=True), default=datetime.utcnow)
     added_to_json = db.Column(db.String, default="1")
     reacts = db.Column(db.Integer, nullable=False, default=0)
-
+    last_updated = db.Column(db.TIMESTAMP(timezone=True), default=datetime.utcnow)
     @classmethod
-    def create(cls, id_topic, topic_name, sum_of_posts, positive_posts, neutral_posts, negative_posts, date, platform, created_at, system):
+    def create(cls, id_topic, topic_name, sum_of_posts, positive_posts, neutral_posts, negative_posts, date, platform, created_at, system, last_updated):
         topic_day = cls(
             id_topic=id_topic,
             topic_name=topic_name,
@@ -32,7 +32,8 @@ class Topic_day(db.Model):
             date=date,
             platform=platform,
             created_at=created_at,
-            system=system
+            system=system,
+            last_updated = last_updated
         )
         db.session.add(topic_day)
         db.session.commit()

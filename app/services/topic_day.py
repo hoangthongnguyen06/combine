@@ -99,7 +99,8 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac, headers
                                                 "system": "platform",
                                                 "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                                                 "added_to_json": "0",
-                                                "reacts": total_reacts
+                                                "reacts": total_reacts,
+                                                "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                                             }
 
                                             platform_mapping = {
@@ -112,10 +113,10 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac, headers
                                                 12: "Tiktok"
                                             }
                                             extracted_data["platform"] = platform_mapping.get(source_id, "Unknown")
-
                                             try:
-                                                top = Topic_day.query.filter_by(uid=extracted_data['uid']).first()
+                                                top = Topic_day.query.filter_by(id_topic=id, source_id=source_id, date=extracted_data['date']).first()
                                                 if top:
+                                                    extracted_data["added_to_json"] = "2"  # Updated value
                                                     for key, value in extracted_data.items():
                                                         setattr(top, key, value)
                                                     db.session.commit()
@@ -171,7 +172,8 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac, headers
                                             "negative_posts": 0,  # Không có trong JSON trả về, bạn cần thêm logic để xác định giá trị này
                                             "system": "spyder",
                                             "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                                            "added_to_json": "0"
+                                            "added_to_json": "0", 
+                                            "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                                         }
                                         # Xử lý nền tảng của tin bài
                                         platform_mapping = {
@@ -184,8 +186,9 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac, headers
                                         extracted_data["platform"] = platform_mapping.get(details_data["source_type"], "Unknown")
 
                                         try:
-                                            top = Topic_day.query.filter_by(uid=extracted_data['uid']).first()
+                                            top = Topic_day.query.filter_by(id_topic=id, source_id=source_id, date=extracted_data['date']).first()
                                             if top:
+                                                extracted_data["added_to_json"] = "2"  # Updated value
                                                 for key, value in extracted_data.items():
                                                     setattr(top, key, value)
                                                 db.session.commit()
