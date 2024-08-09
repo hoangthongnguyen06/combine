@@ -14,29 +14,43 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac, headers
     today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
     yesterday = today - timedelta(days=1)
 
+    # payload_platform_sac_thai = {
+    #     "date_from": today.strftime("%Y/%m/%d 00:00:00"),
+    #     "date_to": today.strftime("%Y/%m/%d 23:59:59"),
+    #     "sources": [1, 2, 4, 5, 8, 9, 12]
+    # }
     payload_platform_sac_thai = {
-        "date_from": today.strftime("%Y/%m/%d 00:00:00"),
-        "date_to": today.strftime("%Y/%m/%d 23:59:59"),
-        "sources": [1, 2, 4, 5, 8, 9, 12]
+    "date_from": today.strftime("2024/01/01 00:00:00"),
+    "date_to": today.strftime("2024/08/09 23:59:59"),
+    "sources": [1, 2, 4, 5, 8, 9, 12]
     }
 
     payload_platform_tuong_tac = {
-        "date_from": today.strftime("%Y/%m/%d 00:00:00"),
-        "date_to": today.strftime("%Y/%m/%d 23:59:59"),
+        "date_from": today.strftime("2024/01/01 00:00:00"),
+        "date_to": today.strftime("2024/08/09 23:59:59"),
         "sources": [8, 9, 12]
     }
 
     now = datetime.now()
     yesterday_start = datetime(now.year, now.month, now.day) - timedelta(days=1)
     
+    # payload_spyder_sac_thai = {
+    #     "time_range": {
+    #         "from": yesterday_start.strftime("%Y-%m-%d %H:%M:%S"),
+    #         "to": now.strftime("%Y-%m-%d %H:%M:%S")
+    #     },
+    #     "top": 10,
+    #     "Topics": [-1]
+    # }
+
     payload_spyder_sac_thai = {
-        "time_range": {
-            "from": yesterday_start.strftime("%Y-%m-%d %H:%M:%S"),
-            "to": now.strftime("%Y-%m-%d %H:%M:%S")
-        },
-        "top": 10,
-        "Topics": [-1]
-    }
+    "time_range": {
+        "from": "2024-01-01 23:59:59",
+        "to": "2024-08-09 23:59:59"
+    },
+    "top": 10,
+    "Topics": [-1]
+}
 
     with app.app_context():
         if Config.PLATFORM_API_URL in api_url_sac_thai:
