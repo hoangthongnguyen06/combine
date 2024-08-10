@@ -29,7 +29,6 @@ def convert_to_number(value):
             return int(number)
     return int(value) if value else 0
 
-total_neutral_posts = sum(convert_to_number(item.get("total", 0)) for item in details_data["data"])
 
 
 # def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac, headers=None, app=None):
