@@ -249,7 +249,7 @@ results_platform = db.session.query(Topic_new.id, Topic_new.name, Topic_new.keyw
 results_spyder = db.session.query(Topic_new.id, Topic_new.name, Topic_new.keyword_spyder).all()
 
 def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac, headers=None, app=None):
-    start_date = datetime(2024, 1, 1)
+    start_date = datetime(2024, 6, 18)
     end_date = datetime(2024, 8, 10)
 
     # Khởi tạo các payload với phạm vi ngày
