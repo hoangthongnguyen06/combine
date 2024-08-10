@@ -13,21 +13,24 @@ import re
 
 def convert_to_number(value):
     if isinstance(value, str):
-        # Remove commas and spaces
-        value = value.replace(",", "").replace(" ", "")
+        # Remove spaces
+        value = value.replace(" ", "")
         # Use regex to capture the numeric part and the suffix
         match = re.match(r"(\d+(\.\d+)?)([KkMm]?)", value)
         if match:
             number = float(match.group(1))
             suffix = match.group(3).lower()
 
-            if suffix == "K":
+            if suffix == "k":
                 number *= 1_000
-            elif suffix == "M":
+            elif suffix == "m":
                 number *= 1_000_000
 
             return int(number)
     return int(value) if value else 0
+
+total_neutral_posts = sum(convert_to_number(item.get("total", 0)) for item in details_data["data"])
+
 
 # def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac, headers=None, app=None):
 #     today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
