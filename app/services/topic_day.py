@@ -13,21 +13,24 @@ import re
 
 def convert_to_number(value):
     if isinstance(value, str):
-        # Remove spaces
+        # Loại bỏ khoảng trắng
         value = value.replace(" ", "")
-        # Use regex to capture the numeric part and the suffix
+        # Dùng regex để lấy phần số và hậu tố (K, M)
         match = re.match(r"(\d+(\.\d+)?)([KkMm]?)", value)
         if match:
-            number = float(match.group(1))
-            suffix = match.group(3).lower()
+            number = float(match.group(1))  # Phần số
+            suffix = match.group(3).lower()  # Hậu tố
 
             if suffix == "k":
                 number *= 1_000
             elif suffix == "m":
                 number *= 1_000_000
 
-            return int(number)
-    return int(value) if value else 0
+            return int(number)  # Trả về số nguyên
+    try:
+        return int(value)  # Trường hợp không có hậu tố, trả về số nguyên
+    except ValueError:
+        return 0  # Trường hợp giá trị không phải số, trả về 0
 
 
 
