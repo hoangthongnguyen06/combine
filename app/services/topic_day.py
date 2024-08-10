@@ -9,25 +9,25 @@
 # from app.models.topic_day import Topic_day
 # results_platform = db.session.query(Topic_new.id, Topic_new.name, Topic_new.keyword_platform).all()
 # results_spyder = db.session.query(Topic_new.id, Topic_new.name, Topic_new.keyword_spyder).all()
-# import re
+import re
 
-# def convert_to_number(value):
-#     if isinstance(value, str):
-#         # Remove commas and spaces
-#         value = value.replace(",", "").replace(" ", "")
-#         # Use regex to capture the numeric part and the suffix
-#         match = re.match(r"(\d+(\.\d+)?)([KkMm]?)", value)
-#         if match:
-#             number = float(match.group(1))
-#             suffix = match.group(3).lower()
+def convert_to_number(value):
+    if isinstance(value, str):
+        # Remove commas and spaces
+        value = value.replace(",", "").replace(" ", "")
+        # Use regex to capture the numeric part and the suffix
+        match = re.match(r"(\d+(\.\d+)?)([KkMm]?)", value)
+        if match:
+            number = float(match.group(1))
+            suffix = match.group(3).lower()
 
-#             if suffix == "K":
-#                 number *= 1_000
-#             elif suffix == "M":
-#                 number *= 1_000_000
+            if suffix == "K":
+                number *= 1_000
+            elif suffix == "M":
+                number *= 1_000_000
 
-#             return int(number)
-#     return int(value) if value else 0
+            return int(number)
+    return int(value) if value else 0
 
 # def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac, headers=None, app=None):
 #     today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
