@@ -3,8 +3,8 @@ from app.models import Statistics
 from app import db
 from datetime import datetime, timedelta
 
-# Mã tỉnh theo danh sách bạn cung cấp
-location_id_map = {
+# Mã tỉnh
+province_code_map = {
     "Hà Nội": 1, "Hà Giang": 2, "Cao Bằng": 4, "Bắc Kạn": 6, "Tuyên Quang": 8,
     "Lào Cai": 10, "Điện Biên": 11, "Lai Châu": 12, "Sơn La": 14, "Yên Bái": 15,
     "Hoà Bình": 17, "Thái Nguyên": 19, "Lạng Sơn": 20, "Quảng Ninh": 22, "Bắc Giang": 24,
@@ -16,39 +16,35 @@ location_id_map = {
     "Gia Lai": 64, "Đắk Lắk": 66, "Đắk Nông": 67, "Lâm Đồng": 68, "Bình Phước": 70,
     "Tây Ninh": 72, "Bình Dương": 74, "Đồng Nai": 75, "Bà Rịa - Vũng Tàu": 77,
     "TP Hồ Chí Minh": 79, "Long An": 80, "Tiền Giang": 82, "Bến Tre": 83,
-    "Trà Vinh": 84, "Vĩnh Long": 86, "Đồng Tháp": 87, "An Giang": 89,
-    "Kiên Giang": 91, "Cần Thơ": 92, "Hậu Giang": 93, "Sóc Trăng": 94,
-    "Bạc Liêu": 95, "Cà Mau": 96
+    "Trà Vinh": 84, "Vĩnh Long": 86, "Đồng Tháp": 87, "An Giang": 89, "Kiên Giang": 91,
+    "Cần Thơ": 92, "Hậu Giang": 93, "Sóc Trăng": 94, "Bạc Liêu": 95, "Cà Mau": 96
 }
 
 def update_location_post_counts_from_api(api_url, headers=None, app=None):
     with app.app_context():
-        # Tính toán thời gian cho date_from và date_to
+        # Tạo payload với thời gian từ 7 ngày trước đến thời điểm hiện tại
         date_to = datetime.now()
         date_from = date_to - timedelta(days=7)
-
-        # Định dạng thời gian
-        date_from_str = date_from.strftime("%Y/%m/%d %H:%M:%S")
-        date_to_str = date_to.strftime("%Y/%m/%d %H:%M:%S")
-
+        
         payload = {
-            "date_from": date_from_str,
-            "date_to": date_to_str,
+            "date_from": date_from.strftime("%Y/%m/%d %H:%M:%S"),
+            "date_to": date_to.strftime("%Y/%m/%d %H:%M:%S"),
             "topic_ids": None,
             "sentiment": None
         }
 
         try:
             response = requests.post(api_url, json=payload, headers=headers, verify=False)
-            response.raise_for_status()
+            response.raise_for_status()  # Kiểm tra xem yêu cầu có thành công hay không
 
             api_data = response.json()
             locations = api_data.get("data", {}).get("locations", [])
 
             for loc in locations:
                 location_name = loc.get("location")
-                if location_name in location_id_map:
-                    location_id = location_id_map[location_name]
+                location_id = province_code_map.get(location_name)
+
+                if location_id:
                     location_data = {
                         "id": location_id,
                         "location": location_name,
@@ -61,11 +57,15 @@ def update_location_post_counts_from_api(api_url, headers=None, app=None):
                     try:
                         existing_location = Statistics.query.filter_by(id=location_data["id"]).first()
                         if existing_location:
+                            # Cập nhật thông tin nếu bản ghi đã tồn tại
                             existing_location.total_count = location_data["total_count"]
                             existing_location.positive_count = location_data["positive_count"]
                             existing_location.neutral_count = location_data["neutral_count"]
                             existing_location.negative_count = location_data["negative_count"]
+                            existing_location.added_to_json = "2"
                         else:
+                            # Tạo bản ghi mới nếu chưa tồn tại
+                            location_data["added_to_json"] = "1"
                             new_location = Statistics(**location_data)
                             db.session.add(new_location)
 
