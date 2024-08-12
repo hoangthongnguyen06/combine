@@ -235,7 +235,7 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac, headers
                                 print(f"Failed to fetch objects: {response.status_code}")
                         except Exception as e:
                             print(f"An unexpected error occurred: {e}")
-
+                            
 # from datetime import datetime, timedelta
 # import requests
 # import uuid

@@ -1,49 +1,49 @@
-
 import requests
-from app.models import Post
-from app import db
-from datetime import datetime
 from app.models import Statistics
-
-import requests
-from app.models import statistics
 from app import db
-from datetime import datetime
+from datetime import datetime, timedelta
 
-sorted_provinces = [
-    "Hà Nội", "Hà Giang", "Cao Bằng", "Lai Châu", "Lào Cai", "Tuyên Quang", "Yên Bái", 
-    "Điện Biên", "Bắc Kạn", "Lạng Sơn", "Bắc Giang", "Phú Thọ", "Quảng Ninh", "Thái Nguyên", 
-    "Bắc Ninh", "Hải Dương", "Hải Phòng", "Hưng Yên", "Nam Định", "Ninh Bình", "Thái Bình", 
-    "Vĩnh Phúc", "Đắk Lắk", "Gia Lai", "Kon Tum", "Lâm Đồng", "Bình Định", "Bình Thuận", 
-    "Đà Nẵng", "Khánh Hòa", "Ninh Thuận", "Phú Yên", "Quảng Nam", "Quảng Ngãi", "Đắk Nông", 
-    "Sóc Trăng", "Bà Rịa - Vũng Tàu", "Bình Dương", "Bình Phước", "Đồng Nai", "Tây Ninh", 
-    "Hồ Chí Minh", "An Giang", "Bạc Liêu", "Bến Tre", "Cà Mau", "Đồng Tháp", "Long An", 
-    "Tiền Giang", "Trà Vinh", "Vĩnh Long", "Hậu Giang", "Kiên Giang", "Cần Thơ", 
-    "Nghệ An", "Hà Tĩnh", "Quảng Bình", "Quảng Trị", "Thanh Hóa", "Thừa Thiên - Huế"
-]
+# Mã tỉnh theo danh sách bạn cung cấp
+location_id_map = {
+    "Hà Nội": 1, "Hà Giang": 2, "Cao Bằng": 4, "Bắc Kạn": 6, "Tuyên Quang": 8,
+    "Lào Cai": 10, "Điện Biên": 11, "Lai Châu": 12, "Sơn La": 14, "Yên Bái": 15,
+    "Hoà Bình": 17, "Thái Nguyên": 19, "Lạng Sơn": 20, "Quảng Ninh": 22, "Bắc Giang": 24,
+    "Phú Thọ": 25, "Vĩnh Phúc": 26, "Bắc Ninh": 27, "Hải Dương": 30, "Hải Phòng": 31,
+    "Hưng Yên": 33, "Thái Bình": 34, "Hà Nam": 35, "Nam Định": 36, "Ninh Bình": 37,
+    "Thanh Hóa": 38, "Nghệ An": 40, "Hà Tĩnh": 42, "Quảng Bình": 44, "Quảng Trị": 45,
+    "Thừa Thiên Huế": 46, "Đà Nẵng": 48, "Quảng Nam": 49, "Quảng Ngãi": 51, "Bình Định": 52,
+    "Phú Yên": 54, "Khánh Hòa": 56, "Ninh Thuận": 58, "Bình Thuận": 60, "Kon Tum": 62,
+    "Gia Lai": 64, "Đắk Lắk": 66, "Đắk Nông": 67, "Lâm Đồng": 68, "Bình Phước": 70,
+    "Tây Ninh": 72, "Bình Dương": 74, "Đồng Nai": 75, "Bà Rịa - Vũng Tàu": 77,
+    "TP Hồ Chí Minh": 79, "Long An": 80, "Tiền Giang": 82, "Bến Tre": 83,
+    "Trà Vinh": 84, "Vĩnh Long": 86, "Đồng Tháp": 87, "An Giang": 89,
+    "Kiên Giang": 91, "Cần Thơ": 92, "Hậu Giang": 93, "Sóc Trăng": 94,
+    "Bạc Liêu": 95, "Cà Mau": 96
+}
 
 def update_location_post_counts_from_api(api_url, headers=None, app=None):
     with app.app_context():
-        # Update payload with corresponding time
-        date_from = "2024/01/01 00:00:00"
-        date_to = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-        
+        # Tính toán thời gian cho date_from và date_to
+        date_to = datetime.now()
+        date_from = date_to - timedelta(days=7)
+
+        # Định dạng thời gian
+        date_from_str = date_from.strftime("%Y/%m/%d %H:%M:%S")
+        date_to_str = date_to.strftime("%Y/%m/%d %H:%M:%S")
+
         payload = {
-            "date_from": date_from,
-            "date_to": date_to,
+            "date_from": date_from_str,
+            "date_to": date_to_str,
             "topic_ids": None,
             "sentiment": None
         }
 
         try:
             response = requests.post(api_url, json=payload, headers=headers, verify=False)
-            response.raise_for_status()  # Raise an HTTPError if the HTTP request returned an unsuccessful status code
+            response.raise_for_status()
 
             api_data = response.json()
             locations = api_data.get("data", {}).get("locations", [])
-
-            # Map location names to IDs based on their order in sorted_provinces
-            location_id_map = {loc: idx + 1 for idx, loc in enumerate(sorted_provinces)}
 
             for loc in locations:
                 location_name = loc.get("location")
