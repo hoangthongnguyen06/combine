@@ -120,10 +120,10 @@ def update_location_post_counts_from_api(api_url, headers=None, app=None):
         return
 
     with app.app_context():
-        # Đặt start_date là 0 giờ ngày hôm qua và end_date là giờ này ngày hôm nay
-        end_date = datetime.now()
-        start_date = (end_date - timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
-
+        # Đặt start_date là 1-1-2024 và end_date là 15-8-2024
+        start_date = datetime(2024, 1, 1)
+        end_date = datetime(2024, 8, 15)
+        
         # Lặp qua từng ngày từ start_date đến end_date
         current_date = start_date
         while current_date <= end_date:
@@ -146,7 +146,6 @@ def update_location_post_counts_from_api(api_url, headers=None, app=None):
                     location_id_str = province_code_map.get(location_name)
                     print(location_id_str)
 
-                    # Không cần chuyển đổi thành UUID nếu đã là chuỗi UUID hợp lệ
                     location_id = location_id_str
 
                     if location_id:
@@ -165,6 +164,7 @@ def update_location_post_counts_from_api(api_url, headers=None, app=None):
                         }
 
                         try:
+                            # Kiểm tra xem bản ghi đã tồn tại trong database hay chưa
                             existing_location = Tinhthanh_Ngay.query.filter_by(id_province=location_data["id_province"], date=location_data["date"]).first()
                             if existing_location:
                                 # Cập nhật thông tin nếu bản ghi đã tồn tại
