@@ -30,14 +30,13 @@ def get_province_data(api_url, headers=None):
         print(f"Error parsing JSON response: {e}")
         return {}
 
-def update_location_post_counts_from_api(api_url, headers=None, province_api_url=None, app=None):
+def update_location_post_counts_from_api(api_url, headers=None, app=None):
     # Lấy dữ liệu tỉnh thành và id_province từ API khác
     province_code_map = get_province_data(endpoints.APISupabase.TINHTHANH_NGAY.value, headers)
     
     if not province_code_map:
         print("Failed to retrieve province data.")
         return
-    
     with app.app_context():
         # Tạo payload với thời gian từ 7 ngày trước đến thời điểm hiện tại
         date_to = datetime.now()
