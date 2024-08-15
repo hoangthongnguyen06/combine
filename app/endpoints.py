@@ -11,6 +11,7 @@ class APIPlatformEndpoints(Enum):
     GET_CHANNELS = f'{Config.PLATFORM_API_URL}/api/platform/youtube/search'
     SAC_THAI_THEO_CHU_DE = f"{Config.PLATFORM_API_URL}/api/platform/statistic/statistic-source-by-days"
     LUOT_TUONG_TAC_THEO_CHU_DE = f"{Config.PLATFORM_API_URL}/api/platform/statistic/statistic-reaction-by-source-days"
+    
 
 class APISpyderEndpoints(Enum):
     LOGIN = f'{Config.SPYDER_API_URL}/api/admin-mgt/v1/account/login_v2'
@@ -27,3 +28,4 @@ class APISpyderEndpoints(Enum):
     
 class APISupabase(Enum):
     CHU_DE = f'{Config.URL_SUPABASE}/chude/'
+    TINHTHANH_NGAY = f"{Config.URL_SUPABASE}/tinhthanh"
