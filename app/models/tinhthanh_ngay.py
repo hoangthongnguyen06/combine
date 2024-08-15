@@ -3,7 +3,7 @@ from datetime import datetime
 import uuid  # Import uuid để sử dụng trong việc tạo UUID
 
 class Tinhthanh_Ngay(db.Model):
-    __tablename__ = 'TCTT_Tinhthanh_Ngay'
+    __tablename__ = 'TCTT_TinhThanh_Ngay'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # Thêm trường id với kiểu Integer, tự động tăng
     id_province = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, nullable=False)  # Sử dụng UUID
