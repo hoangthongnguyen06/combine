@@ -33,7 +33,7 @@ def get_province_data(api_url, headers=None):
 def update_location_post_counts_from_api(api_url, headers=None, app=None):
     # Lấy dữ liệu tỉnh thành và id_province từ API khác
     province_code_map = get_province_data(endpoints.APISupabase.TINHTHANH_NGAY.value, headers)
-    
+    print(province_code_map)
     if not province_code_map:
         print("Failed to retrieve province data.")
         return
@@ -59,9 +59,10 @@ def update_location_post_counts_from_api(api_url, headers=None, app=None):
             for loc in locations:
                 location_name = loc.get("location")
                 location_id_str = province_code_map.get(location_name)
+                print(location_id_str)
                 # Chuyển đổi location_id_str thành UUID nếu cần thiết
                 try:
-                    location_id = uuid.UUID(location_id_str)
+                    location_id = location_id_str
                 except ValueError:
                     print(f"Invalid UUID format for location ID: {location_id_str}")
                     continue
