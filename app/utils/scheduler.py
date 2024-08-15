@@ -4,7 +4,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from app.services.post import update_posts_from_api
 from app.services.topic import update_topics_from_api
 from app.services.topic_new import update_topics_new_from_api
-from app.services.statistic import update_location_post_counts_from_api
+from app.services.tinhthanh_ngay import update_location_post_counts_from_api
 # from app.services.object import update_objects_from_api
 # from app.services.result import update_results_from_api
 from app import config, endpoints
