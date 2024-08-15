@@ -1,6 +1,7 @@
 import requests
 from app.models import Tinhthanh_Ngay
 from app import db
+import app
 from datetime import datetime, timedelta
 from app.config import Config
 from app import endpoints
