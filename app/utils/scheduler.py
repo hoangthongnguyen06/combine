@@ -84,7 +84,7 @@ def start_scheduler(app):
                 endpoints.APISpyderEndpoints.SAC_THAI_THEO_CHU_DE.value, None, headers_spyder, app))
             # # scheduler.add_job(func=update_posts_from_api, trigger="interval", minutes=0.5, args=(
             # #     endpoints.APIPlatformEndpoints.POST.value, headers_platform, headers_spyder, app))
-            scheduler.add_job(func=update_location_post_counts_from_api, trigger="interval", minutes=1, args=(
+            scheduler.add_job(func=update_location_post_counts_from_api, trigger="interval", minutes=5, args=(
                 endpoints.APIPlatformEndpoints.GET_POST_NUMBER_WITH_LOCATION.value, headers_platform, app))
             scheduler.start()
             print("Scheduler started successfully.")
