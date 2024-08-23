@@ -9,14 +9,18 @@ from datetime import datetime
 from sqlalchemy.dialects.postgresql import UUID, ARRAY
 import uuid
 import app
-
+from sqlalchemy import text
 # Lấy API_URLS từ biến môi trường và chuyển thành dictionary
 API_URLS = json.loads(os.getenv("API_URLS"))
 
 def get_unit_id_manager(unit_name):
-    stmt = select([db.Column('id')]).select_from(db.Table('unit', db.metadata, schema='btth')).where(db.Column('name') == unit_name)
-    result = db.session.execute(stmt).fetchone()
-    return result[0] if result else None
+    # Truy vấn unit_id_manager bằng cách sử dụng câu lệnh SQL trực tiếp
+    result = db.session.execute(
+        text('SELECT id FROM "btth"."unit" WHERE name = :name'),
+        {'name': unit_name}
+    )
+    unit_id_manager = result.fetchone()
+    return unit_id_manager[0] if unit_id_manager else None
 
 def update_server_status(app=None):
     with app.app_context():
