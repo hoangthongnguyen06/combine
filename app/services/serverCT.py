@@ -2,7 +2,7 @@ import os
 import json
 from dotenv import load_dotenv
 from app import db
-from models import ServerCT
+from models.serverCT import ServerCT
 import requests
 from sqlalchemy import select
 from datetime import datetime
