@@ -29,8 +29,9 @@ def update_server_status(app=None):
                 response = requests.get(url, timeout=10)
                 status = "up" if response.status_code == 200 else "down"
                 unit_id_manager = get_unit_id_manager(unit_name)
+                unit_id_manager_uuid = uuid.UUID(unit_id_manager)
                 if unit_id_manager:
-                    server = db.session.query(ServerCT).filter_by(unit_id_manager=unit_id_manager).first()
+                    server = db.session.query(ServerCT).filter_by(unit_id_manager=unit_id_manager_uuid).first()
                     if server:
                         server.status = status
                         server.last_up = datetime.utcnow()
