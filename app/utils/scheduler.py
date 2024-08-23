@@ -62,9 +62,10 @@ def start_scheduler(app):
         # Get access token
         access_token_platform = get_access_token(
             config.Config.USERNAME_PLATFORM, config.Config.PASSWORD_PLATFORM, "platform")
+        print(access_token_platform)
         access_token_spyder = get_access_token(
             config.Config.USERNAME_SPYDER, config.Config.PASSWORD_SPYDER, "spyder")
-        print
+        print(access_token_spyder)
         # if not access_token_spyder or not access_token_platform:
         if not access_token_platform:
             print("Failed to start scheduler. Could not obtain access token.")
