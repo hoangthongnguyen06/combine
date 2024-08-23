@@ -9,3 +9,5 @@ from .channel import Channel
 from .topic_new import Topic_new
 from .topic_day import Topic_day
 from .tinhthanh_ngay import Tinhthanh_Ngay
+from .bot import BotCT86
+from .serverCT import ServerCT

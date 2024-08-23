@@ -16,17 +16,17 @@ def create_app():
         db.create_all()
         migrate.init_app(app, db)
         # Register Blueprints
-        from app.routes.target import bp_targets
-        from app.routes.post import bp_posts
-        from app.routes.topic import bp_topics
-        from app.routes.object import bp_objects
-        from app.routes.result import bp_results
+        # from app.routes.target import bp_targets
+        # from app.routes.post import bp_posts
+        # from app.routes.topic import bp_topics
+        # from app.routes.object import bp_objects
+        # from app.routes.result import bp_results
         
-        app.register_blueprint(bp_targets, url_prefix='/targets')
-        app.register_blueprint(bp_posts, url_prefix='/posts')
-        app.register_blueprint(bp_topics, url_prefix='/topics')
-        app.register_blueprint(bp_objects, url_prefix='/objects')
-        app.register_blueprint(bp_results, url_prefix='/results')
+        # app.register_blueprint(bp_targets, url_prefix='/targets')
+        # app.register_blueprint(bp_posts, url_prefix='/posts')
+        # app.register_blueprint(bp_topics, url_prefix='/topics')
+        # app.register_blueprint(bp_objects, url_prefix='/objects')
+        # app.register_blueprint(bp_results, url_prefix='/results')
 
         # Start scheduler
         from app.utils.scheduler import start_scheduler

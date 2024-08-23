@@ -1,66 +1,37 @@
 # app/models/target.py
 from app import db
 from datetime import datetime
+from sqlalchemy.dialects.postgresql import UUID
+import uuid
 
 class Target(db.Model):
-    __tablename__ = 'TCTT_Target'
+    __tablename__ = 'TCTT_DoiTuongCT86'
     
-    id = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String, nullable=False)
-    gender = db.Column(db.String, nullable=True)
-    status = db.Column(db.String, nullable=False, default='Active')
-    state = db.Column(db.String, nullable=False, default='Positive')
-    type = db.Column(db.String, nullable=False, default='Individual')
-    platform = db.Column(db.String, nullable=False)
-    created_at = db.Column(db.Date, default=datetime)
-    uid = db.Column(db.String, nullable=False)
-    region = db.Column(db.String, nullable=False)
-    assign = db.Column(db.ARRAY(db.String), nullable=True, default=[])
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    created_at = db.Column(db.TIMESTAMP(timezone=True), default=datetime.utcnow, nullable=False)
+    avatar = db.Column(db.String, nullable=True)
+    image = db.Column(db.String, nullable=True)
+    name = db.Column(db.String, nullable=True)
+    status = db.Column(db.String, nullable=False)
+    nuance = db.Column(db.String, nullable=False)
+    added_to_json = db.Column(db.String, default="1")
+    name_platform = db.Column(db.String, nullable=False)
+    id_platform = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, nullable=False)
+    keyword = db.Column(db.String, nullable=False)
+    note = db.Column(db.String, nullable=False)
+    id_object = db.Column(db.String, nullable=False)
 
-    @classmethod
-    def create(cls, name, sex=None, birthday=None, state=None, type=None, domain=None, assign=None):
-        target = cls(
-            name=name,
-            sex=sex,
-            birthday=birthday,
-            state=state,
-            type=type,
-            domain=domain,
-            assign=assign
-        )
-        db.session.add(target)
-        db.session.commit()
-        return target
-
-    def update(self, **kwargs):
-        for key, value in kwargs.items():
-            setattr(self, key, value)
-        db.session.commit()
-
-    def delete(self):
-        db.session.delete(self)
-        db.session.commit()
-
-    @classmethod
-    def get_all(cls):
-        return cls.query.all()
-    
-    @classmethod
-    def get_by_id(cls, id):
-        return cls.query.get(id)
-
-    def serialize(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'sex': self.sex,
-            'birthday': self.birthday.isoformat() if self.birthday else None,
-            'status': self.status,
-            'state': self.state,
-            'type': self.type,
-            'domain': self.domain,
-            'assign': self.assign,
-            'created_at': self.created_at.isoformat() if self.created_at else None,
-            'uid': self.uid,
-            'region': self.region
-        }
+    def __init__(self, created_at, avatar, image, name, status, nuance, added_to_json, name_platform, id_platform, keyword, note, id_object):
+        self.created_at = created_at
+        self.avatar = avatar
+        self.image = image
+        self.name = name
+        self.nuance = nuance
+        self.status = status
+        self.added_to_json = added_to_json
+        self.name_platform = name_platform
+        self.id_platform = id_platform
+        self.keyword = keyword
+        self.note = note
+        self.id_object = id_object
+   
