@@ -6,7 +6,7 @@ import uuid
 class ServerCT(db.Model):
     __tablename__ = 'server_ct86'
     __table_args__ = {'schema': 'btth'}
-    uuid = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    uuid = db.Column(UUID(as_uuid=True), primary_key=True)
     cpu = db.Column(db.String(20), default=None)
     unit_id_manager = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     last_up = db.Column(db.TIMESTAMP(timezone=True), default=datetime.utcnow, nullable=False)
