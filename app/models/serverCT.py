@@ -8,7 +8,7 @@ class ServerCT(db.Model):
     __table_args__ = {'schema': 'btth'}
     uuid = db.Column(UUID(as_uuid=True), primary_key=True)
     cpu = db.Column(db.String(20), default=None)
-    unit_id_manager = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    unit_id_manager = db.Column(UUID(as_uuid=True), primary_key=True)
     last_up = db.Column(db.TIMESTAMP(timezone=True), default=datetime.utcnow, nullable=False)
     ip = db.Column(ARRAY(db.String), nullable=False)
     status = db.Column(db.String(20), default='up')
