@@ -40,7 +40,7 @@ def update_server_status(app=None):
                         server.last_up = datetime.utcnow()
                     else:
                         new_server = ServerCT(
-                            uuid=str(uuid.uuid4()),
+                            uuid=uuid.uuid4(),
                             cpu=None,
                             unit_id_manager=str(unit_id_manager),
                             last_up=datetime.utcnow(),
