@@ -22,12 +22,14 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 def get_access_token(username, password, system):
     if system == "platform":
         login_url = endpoints.APIPlatformEndpoints.LOGIN.value
+        print(login_url)
         login_data = {
             'username': username,
             'password': password,
         }
+        print(login_data)
         response = requests.post(login_url, json=login_data, verify=False)
-
+        print(response.json())
         if response.status_code == 200:
             access_token = response.json().get('data', {}).get('data', {}).get('token')
             print("Platform: Successfully obtained access token.")
