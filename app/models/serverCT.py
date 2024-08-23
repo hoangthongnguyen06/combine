@@ -13,7 +13,7 @@ class ServerCT(db.Model):
     ip = db.Column(ARRAY(db.String), nullable=False)
     status = db.Column(db.String(20), default='up')
     storage = db.Column(db.Integer, nullable=True)
-    ram = db.Colum(db.Int)
+    ram = db.Column(db.Integer, nullable=False, default=0)
     host_name = db.Column(db.String(100), nullable=True)
 
     def __init__(self, uuid, cpu, unit_id_manager, last_up,  ip, status,
