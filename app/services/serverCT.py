@@ -22,6 +22,9 @@ def get_unit_id_manager(unit_name):
     unit_id_manager = result.fetchone()
     return unit_id_manager[0] if unit_id_manager else None
 
+from sqlalchemy.dialects.postgresql import UUID
+import uuid
+
 def update_server_status(app=None):
     with app.app_context():
         for unit_name, url in API_URLS.items():
@@ -30,7 +33,8 @@ def update_server_status(app=None):
                 status = "up" if response.status_code == 200 else "down"
                 unit_id_manager = get_unit_id_manager(unit_name)
                 if unit_id_manager:
-                    server = db.session.query(ServerCT).filter_by(unit_id_manager=str(unit_id_manager)).first()
+                    # Cast unit_id_manager to UUID
+                    server = db.session.query(ServerCT).filter_by(unit_id_manager=uuid.UUID(str(unit_id_manager))).first()
                     if server:
                         server.status = status
                         server.last_up = datetime.utcnow()
@@ -38,7 +42,7 @@ def update_server_status(app=None):
                         new_server = ServerCT(
                             uuid=str(uuid.uuid4()),
                             cpu=None,
-                            unit_id_manager=unit_id_manager,
+                            unit_id_manager=uuid.UUID(str(unit_id_manager)),
                             last_up=datetime.utcnow(),
                             ip=[],
                             status=status,
@@ -53,4 +57,3 @@ def update_server_status(app=None):
 
             except requests.exceptions.RequestException as e:
                 print(f"Failed to connect to {url}: {e}")
-
