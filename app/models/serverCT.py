@@ -15,9 +15,10 @@ class ServerCT(db.Model):
     storage = db.Column(db.Integer, nullable=True)
     ram = db.Column(db.Integer, nullable=False, default=0)
     host_name = db.Column(db.String(100), nullable=True)
+    name = db.Column(db.String(100), nullable=True)
 
     def __init__(self, uuid, cpu, unit_id_manager, last_up,  ip, status,
-                 storage, ram, host_name):
+                 storage, ram, host_name, name):
         self.uuid = uuid
         self.cpu = cpu
         self.unit_id_manager = unit_id_manager
@@ -27,3 +28,4 @@ class ServerCT(db.Model):
         self.storage = storage
         self.ram = ram
         self.host_name = host_name
+        self.name = name

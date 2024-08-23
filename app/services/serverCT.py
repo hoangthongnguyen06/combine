@@ -48,7 +48,8 @@ def update_server_status(app=None):
                             status=status,
                             storage=None,
                             ram=None,
-                            host_name=None
+                            host_name=None,
+                            name = unit_name
                         )
                         db.session.add(new_server)
                     db.session.commit()
