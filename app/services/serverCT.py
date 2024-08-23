@@ -34,7 +34,7 @@ def update_server_status(app=None):
                 unit_id_manager = get_unit_id_manager(unit_name)
                 if unit_id_manager:
                     # Cast unit_id_manager to UUID
-                    server = db.session.query(ServerCT).filter_by(unit_id_manager=uuid.UUID(str(unit_id_manager))).first()
+                    server = db.session.query(ServerCT).filter_by(unit_id_manager=str(unit_id_manager)).first()
                     if server:
                         server.status = status
                         server.last_up = datetime.utcnow()
@@ -42,7 +42,7 @@ def update_server_status(app=None):
                         new_server = ServerCT(
                             uuid=str(uuid.uuid4()),
                             cpu=None,
-                            unit_id_manager=uuid.UUID(str(unit_id_manager)),
+                            unit_id_manager=str(unit_id_manager),
                             last_up=datetime.utcnow(),
                             ip=[],
                             status=status,
