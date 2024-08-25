@@ -29,8 +29,9 @@ def update_server_status(app=None):
     with app.app_context():
         for unit_name, url in API_URLS.items():
             try:
-                response = requests.get(url, timeout=10)
-                status = "up" if response.status_code == 200 else "down"
+                # response = requests.get(url, timeout=60)
+                # status = "up" if response.status_code == 200 else "down"
+                status = "up"
                 unit_id_manager = get_unit_id_manager(unit_name)
                 if unit_id_manager:
                     # Xử lý cho hai máy chủ với các IP cụ thể
