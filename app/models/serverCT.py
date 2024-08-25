@@ -10,7 +10,7 @@ class ServerCT(db.Model):
     cpu = db.Column(db.String(20), default=None)
     unit_id_manager = db.Column(db.String(100), nullable=True)
     last_up = db.Column(db.TIMESTAMP(timezone=True), default=datetime.utcnow, nullable=False)
-    ip = db.Column(ARRAY(db.String), nullable=False)
+    ip = db.Column(db.String(100), nullable=True)
     status = db.Column(db.String(20), default='up')
     storage = db.Column(db.Integer, nullable=True)
     ram = db.Column(db.Integer, nullable=False, default=0)

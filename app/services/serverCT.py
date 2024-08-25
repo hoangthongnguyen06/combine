@@ -33,25 +33,27 @@ def update_server_status(app=None):
                 status = "up" if response.status_code == 200 else "down"
                 unit_id_manager = get_unit_id_manager(unit_name)
                 if unit_id_manager:
-                    # Cast unit_id_manager to UUID
-                    server = db.session.query(ServerCT).filter_by(name=unit_name).first()
-                    if server:
-                        server.status = status
-                        server.last_up = datetime.utcnow()
-                    else:
-                        new_server = ServerCT(
-                            uuid=uuid.uuid4(),
-                            cpu=None,
-                            unit_id_manager=str(unit_id_manager),
-                            last_up=datetime.utcnow(),
-                            ip=[],
-                            status=status,
-                            storage=None,
-                            ram=None,
-                            host_name=None,
-                            name = unit_name
-                        )
-                        db.session.add(new_server)
+                    # Xử lý cho hai máy chủ với các IP cụ thể
+                    for ip in ["10.16.69.202", "10.16.69.203"]:
+                        server = db.session.query(ServerCT).filter_by(name=unit_name, ip=ip).first()
+                        if server:
+                            server.status = status
+                            server.last_up = datetime.utcnow()
+                        else:
+                            new_server = ServerCT(
+                                uuid=uuid.uuid4(),
+                                cpu=None,
+                                unit_id_manager=str(unit_id_manager),
+                                last_up=datetime.utcnow(),
+                                ip=ip,
+                                status=status,
+                                storage=None,
+                                ram=None,
+                                host_name=None,
+                                name=unit_name
+                            )
+                            db.session.add(new_server)
+                    
                     db.session.commit()
                 else:
                     print(f"Unit {unit_name} not found in the database.")
