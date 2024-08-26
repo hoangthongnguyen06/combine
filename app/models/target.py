@@ -20,10 +20,10 @@ class Target(db.Model):
     keyword = db.Column(db.String, nullable=False)
     note = db.Column(db.String, nullable=False)
     id_object = db.Column(db.String, nullable=False)
-    unit_manage_id = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, nullable=False)
+    manage_unit = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, nullable=False)
     unit = db.Column(db.String, nullable=False)
 
-    def __init__(self, created_at, avatar, image, name, status, nuance, added_to_json, name_platform, id_platform, keyword, note, id_object, unit_manage_id, unit):
+    def __init__(self, created_at, avatar, image, name, status, nuance, added_to_json, name_platform, id_platform, keyword, note, id_object, manage_unit, unit):
         self.created_at = created_at
         self.avatar = avatar
         self.image = image
@@ -36,6 +36,6 @@ class Target(db.Model):
         self.keyword = keyword
         self.note = note
         self.id_object = id_object
-        self.unit_manage_id = unit_manage_id
+        self.manage_unit = manage_unit
         self.unit = unit
    
