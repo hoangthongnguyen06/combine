@@ -67,7 +67,7 @@ def update_target_from_api_data(api_data, manage_unit):
                         unit = unit,
                         manage_unit = get_manage_unit_id(unit_name=manage_unit)
                     )
-                    existing_target = Target.query.filter_by(id_object=target.id_object,unit = unit).first()
+                    existing_target = Target.query.filter_by(id_object=target.id_object).first()
                     
                     if existing_target:
                         existing_target.unit = unit
