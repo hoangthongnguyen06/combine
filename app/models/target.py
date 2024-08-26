@@ -20,6 +20,8 @@ class Target(db.Model):
     keyword = db.Column(db.String, nullable=False)
     note = db.Column(db.String, nullable=False)
     id_object = db.Column(db.String, nullable=False)
+    unit_manage_id = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, nullable=False)
+    unit = db.Column(db.String, nullable=False)
 
     def __init__(self, created_at, avatar, image, name, status, nuance, added_to_json, name_platform, id_platform, keyword, note, id_object):
         self.created_at = created_at

@@ -9,7 +9,20 @@ from app import db
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 from sqlalchemy import text
+
 # from app import db
+def get_manage_unit_id(unit_name: str) -> str:
+    try:
+        result = db.session.execute(
+            text('SELECT id FROM "TCTT_DonVi" WHERE name = :name'),
+            {'name': unit_name}
+        )
+        unit_id = result.fetchone()
+        return unit_id[0] if unit_id else None
+    except Exception as e:
+        print(f"Error fetching unit ID: {e}")
+        return None
+    
 def get_platform_id(platform_name: str) -> str:
     result = db.session.execute(
             text('SELECT id FROM "TCTT_NenTang" WHERE name = :name'),
@@ -28,12 +41,13 @@ def get_name_platform(template: str) -> str:
     else:
         return "unknown"
 
-def update_target_from_api_data(api_data, unit):
+def update_target_from_api_data(api_data, manage_unit):
     for item in api_data['items']:
         source_unit_details = item.get('Source_Unit_Detail', [])
 
         for source_unit in source_unit_details:
             details = source_unit.get('details', [])
+            unit = source_unit.get('project_name')
             
             for detail_list in details:
                 for detail in detail_list:
@@ -49,7 +63,9 @@ def update_target_from_api_data(api_data, unit):
                         id_platform=get_platform_id(get_name_platform(detail.get('template', ''))),
                         keyword=[],
                         note="",
-                        id_object=detail.get('social_id', None)
+                        id_object=detail.get('social_id', None),
+                        unit = unit,
+                        manage_unit = get_manage_unit_id(unit_name=manage_unit)
                     )
                     existing_target = Target.query.filter_by(id_object=target.id_object).first()
                     
