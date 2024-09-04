@@ -13,7 +13,7 @@ from app import config, endpoints
 import requests
 from urllib3.exceptions import InsecureRequestWarning
 
-# from app.services.post import update_posts_from_api
+# from app.services.post import update_posts_from_api   
 
 # Bỏ qua cảnh báo không xác minh yêu cầu không an toàn
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -32,7 +32,7 @@ def get_access_token(username, password, system):
         print(response.json())
         if response.status_code == 200:
             access_token = response.json().get('data', {}).get('data', {}).get('token')
-            access_token = "eyJhbGciOiJIUzUxMiJ9.eyJvcmdhbml6YXRpb25faWQiOjYzMCwidmlldHRlbC5wbGEudG9rZW4uaXMuZmlyc3QubG9naW4iOmZhbHNlLCJzdWIiOiJCVEw4Nl9UVERIOzYzMCIsImV4cCI6MTcyNTAzOTIzOSwiaWF0IjoxNzI0NDM0NDM5fQ.zDr6f5f6Y24KwNx4tKc1Qkbl2YPHK-Fv14a19ZxaN8vh7AxxYof56JR6zm1ruDHoJu2QLl5_Y8wBoDBIK001lQ"
+            #access_token = "eyJhbGciOiJIUzUxMiJ9.eyJvcmdhbml6YXRpb25faWQiOjYzMCwidmlldHRlbC5wbGEudG9rZW4uaXMuZmlyc3QubG9naW4iOmZhbHNlLCJzdWIiOiJCVEw4Nl9UVERIOzYzMCIsImV4cCI6MTcyNTAzOTIzOSwiaWF0IjoxNzI0NDM0NDM5fQ.zDr6f5f6Y24KwNx4tKc1Qkbl2YPHK-Fv14a19ZxaN8vh7AxxYof56JR6zm1ruDHoJu2QLl5_Y8wBoDBIK001lQ"
             print("Platform: Successfully obtained access token.")
             print(access_token)
             return access_token
