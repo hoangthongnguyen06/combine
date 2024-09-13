@@ -148,16 +148,20 @@ def update_sentiment_target_from_api(api_url_sac_thai, api_url_tuong_tac, header
                                             try:
                                                 top = MucTieuBaoVe_ngay.query.filter_by(id_target=extracted_data["id_target"], system="platform", platform=extracted_data["platform"], date=extracted_data['date']).first()
                                                 if top:
+                                                    print("update nhe")
                                                     extracted_data["added_to_json"] = "2"  # Updated value
                                                     for key, value in extracted_data.items():
                                                         setattr(top, key, value)
                                                     db.session.commit()
                                                 else:
+                                                    print("them moi nhe")
                                                     new_obj = MucTieuBaoVe_ngay(**extracted_data)
                                                     db.session.add(new_obj)
                                                     db.session.commit()
                                             except Exception as db_e:
                                                 print(f"An error occurred while saving to the database: {db_e}")
+                                                import traceback
+                                                print(traceback.format_exc())
                                         except KeyError as e:
                                             print(f"Key error when processing details_data_1: {e}")
                                         except AttributeError as e:

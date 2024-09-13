@@ -22,23 +22,31 @@ class MucTieuBaoVe_ngay(db.Model):
     last_updated = db.Column(db.TIMESTAMP(timezone=True), default=datetime.utcnow)
     
     @classmethod
-    def create(cls, id_topic, topic_name, sum_of_posts, positive_posts, neutral_posts, negative_posts, date, platform, created_at, system, last_updated):
-        topic_day = cls(
-            id_topic=id_topic,
-            topic_name=topic_name,
+    def create(cls, id_target, target_name, sum_of_posts, positive_posts, neutral_posts, negative_posts, date, platform, system, created_at=None, last_updated=None):
+        # Set default values for optional fields if not provided
+        created_at = created_at or datetime.utcnow()
+        last_updated = last_updated or datetime.utcnow()
+
+        # Create a new instance of the model
+        new_record = cls(
+            id_target=id_target,
+            target_name=target_name,
             sum_of_posts=sum_of_posts,
             positive_posts=positive_posts,
             neutral_posts=neutral_posts,
             negative_posts=negative_posts,
             date=date,
             platform=platform,
-            created_at=created_at,
             system=system,
-            last_updated = last_updated
+            created_at=created_at,
+            last_updated=last_updated
         )
-        db.session.add(topic_day)
+        
+        # Add and commit the new record to the database
+        db.session.add(new_record)
         db.session.commit()
-        return topic_day
+        
+        return new_record
 
     def update(self, **kwargs):
         for key, value in kwargs.items():
