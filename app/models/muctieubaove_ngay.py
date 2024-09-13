@@ -3,12 +3,12 @@ from datetime import datetime
 from sqlalchemy.dialects.postgresql import UUID
 from app import db
 
-class Target_day(db.Model):
-    __tablename__ = 'TCTT_DoiTuong_Ngay'
+class MucTieuBaoVe_ngay(db.Model):
+    __tablename__ = 'TCTT_MucTieuBaoVe_Ngay'
 
     uid = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    id_topic = db.Column(db.String, db.ForeignKey('TCTT_ChuDe.id'), nullable=False)
-    topic_name = db.Column(db.String(255), nullable=False)
+    id_target = db.Column(db.String, db.ForeignKey('TCTT_MucTieuBaoVe.id'), nullable=False)
+    target_name = db.Column(db.String(255), nullable=False)
     sum_of_posts = db.Column(db.Integer, nullable=False)
     positive_posts = db.Column(db.Integer, nullable=False, default=0)
     neutral_posts = db.Column(db.Integer, nullable=False)
@@ -20,6 +20,7 @@ class Target_day(db.Model):
     added_to_json = db.Column(db.String, default="1")
     reacts = db.Column(db.Integer, nullable=False, default=0)
     last_updated = db.Column(db.TIMESTAMP(timezone=True), default=datetime.utcnow)
+    
     @classmethod
     def create(cls, id_topic, topic_name, sum_of_posts, positive_posts, neutral_posts, negative_posts, date, platform, created_at, system, last_updated):
         topic_day = cls(
