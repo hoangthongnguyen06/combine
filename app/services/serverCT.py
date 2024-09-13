@@ -39,6 +39,7 @@ def update_server_status(app=None):
                         server = db.session.query(ServerCT).filter_by(name=unit_name, ip=ip).first()
                         if server:
                             server.status = status
+                            server.added_to_json="2",
                             server.last_up = datetime.utcnow()
                         else:
                             new_server = ServerCT(
@@ -49,6 +50,7 @@ def update_server_status(app=None):
                                 ip=ip,
                                 status=status,
                                 storage=None,
+                                added_to_json="1",
                                 ram=None,
                                 host_name=None,
                                 name=unit_name

@@ -65,13 +65,15 @@ def update_bot_data_from_api(api_data, unit_id):
                 created_at=datetime.utcnow(),
                 updated_at=datetime.utcnow(),
                 status=account.get('status'),
-                unit_id=unit_id  # Use the fetched unit_id
+                unit_id=unit_id,  # Use the fetched unit_id
+                added_to_json="1"
             )
             
             existing_bot = BotCT86.query.filter_by(uid=bot.uid).first()
             
             if existing_bot:
                 existing_bot.updated_at = datetime.utcnow()
+                existing_bot.added_to_json="2"
                 db.session.commit()
             else:
                 db.session.add(bot)
