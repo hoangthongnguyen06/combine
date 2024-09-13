@@ -28,7 +28,6 @@ import requests
 from app import db
 from datetime import datetime
 import uuid
-from app.models.topic_new import Topic_new
 from app.models.muctieubaove import MucTieuBaoVe
 from app.models.muctieubaove_ngay import MucTieuBaoVe_ngay
 from app.config import Config
@@ -147,7 +146,7 @@ def update_sentiment_target_from_api(api_url_sac_thai, api_url_tuong_tac, header
                                             }
                                             extracted_data["platform"] = platform_mapping.get(source_id, "Unknown")
                                             try:
-                                                top = MucTieuBaoVe_ngay.query.filter_by(id_topic=extracted_data["id_topic"], system="platform", platform=extracted_data["platform"], date=extracted_data['date']).first()
+                                                top = MucTieuBaoVe_ngay.query.filter_by(id_target=extracted_data["id_target"], system="platform", platform=extracted_data["platform"], date=extracted_data['date']).first()
                                                 if top:
                                                     extracted_data["added_to_json"] = "2"  # Updated value
                                                     for key, value in extracted_data.items():
@@ -196,8 +195,8 @@ def update_sentiment_target_from_api(api_url_sac_thai, api_url_tuong_tac, header
                                         total_neutral_posts = sum(convert_to_number(item.get("total", 0)) for item in details_data["data"])
                                         extracted_data = {
                                             "uid": str(uuid.uuid4()),
-                                            "id_topic": id,  
-                                            "topic_name": name,
+                                            "id_target": id,  
+                                            "target_name": name,
                                             "date": datetime.now().strftime("%Y-%m-%d"),
                                             "sum_of_posts": int(details_data.get("total", 0)),
                                             "positive_posts": 0,  # Không có trong JSON trả về, bạn cần thêm logic để xác định giá trị này
@@ -219,7 +218,7 @@ def update_sentiment_target_from_api(api_url_sac_thai, api_url_tuong_tac, header
                                         extracted_data["platform"] = platform_mapping.get(details_data["source_type"], "Unknown")
 
                                         try:
-                                            top = MucTieuBaoVe_ngay.query.filter_by(id_topic=extracted_data["id_topic"],system="spyder", platform=extracted_data["platform"], date=extracted_data['date']).first()
+                                            top = MucTieuBaoVe_ngay.query.filter_by(id_target=extracted_data["id_target"],system="spyder", platform=extracted_data["platform"], date=extracted_data['date']).first()
                                             if top:
                                                 extracted_data["added_to_json"] = "2"  # Updated value
                                                 for key, value in extracted_data.items():
@@ -322,8 +321,8 @@ def update_sentiment_target_from_api(api_url_sac_thai, api_url_tuong_tac, header
 #                                                 total_reacts = totals.get(source_id, {}).get("share_count", 0) + totals.get(source_id, {}).get("like_count", 0) + totals.get(source_id, {}).get("comment_count", 0)
 #                                                 extracted_data = {
 #                                                     "uid": str(uuid.uuid4()),
-#                                                     "id_topic": id,
-#                                                     "topic_name": name,
+#                                                     "id_target": id,
+#                                                     "target_name": name,
 #                                                     "date": details_data.get("date"),
 #                                                     "sum_of_posts": details_data_1.get("total_count", 0),
 #                                                     "positive_posts": details_data_1.get("positive_count", 0),
@@ -347,7 +346,7 @@ def update_sentiment_target_from_api(api_url_sac_thai, api_url_tuong_tac, header
 #                                                 }
 #                                                 extracted_data["platform"] = platform_mapping.get(source_id, "Unknown")
 #                                                 try:
-#                                                     top = Topic_day.query.filter_by(id_topic=extracted_data["id_topic"], system="platform", platform=extracted_data["platform"], date=extracted_data['date']).first()
+#                                                     top = Topic_day.query.filter_by(id_target=extracted_data["id_target"], system="platform", platform=extracted_data["platform"], date=extracted_data['date']).first()
 #                                                     if top:
 #                                                         extracted_data["added_to_json"] = "2"  # Updated value
 #                                                         for key, value in extracted_data.items():
@@ -383,8 +382,8 @@ def update_sentiment_target_from_api(api_url_sac_thai, api_url_tuong_tac, header
 #                                             total_neutral_posts = sum(convert_to_number(item.get("total", 0)) for item in details_data["data"])
 #                                             extracted_data = {
 #                                                 "uid": str(uuid.uuid4()),
-#                                                 "id_topic": id,
-#                                                 "topic_name": name,
+#                                                 "id_target": id,
+#                                                 "target_name": name,
 #                                                 "date": current_date.strftime("%Y-%m-%d"),
 #                                                 "sum_of_posts": int(details_data.get("total", 0)),
 #                                                 "positive_posts": 0,
@@ -405,7 +404,7 @@ def update_sentiment_target_from_api(api_url_sac_thai, api_url_tuong_tac, header
 #                                             extracted_data["platform"] = platform_mapping.get(details_data["source_type"], "Unknown")
 
 #                                             try:
-#                                                 top = Topic_day.query.filter_by(id_topic=extracted_data["id_topic"], system="spyder", platform=extracted_data["platform"], date=extracted_data['date']).first()
+#                                                 top = Topic_day.query.filter_by(id_target=extracted_data["id_target"], system="spyder", platform=extracted_data["platform"], date=extracted_data['date']).first()
 #                                                 if top:
 #                                                     extracted_data["added_to_json"] = "2"
 #                                                     for key, value in extracted_data.items():
