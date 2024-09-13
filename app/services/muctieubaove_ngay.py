@@ -120,7 +120,7 @@ def update_sentiment_target_from_api(api_url_sac_thai, api_url_tuong_tac, header
                                             source_id = details_data_1.get("source_id")
                                             total_reacts = totals.get(source_id, {}).get("share_count", 0) + totals.get(source_id, {}).get("like_count", 0) + totals.get(source_id, {}).get("comment_count", 0)
                                             extracted_data = {
-                                                "uid": str(uuid.uuid4()),
+                                                "id": str(uuid.uuid4()),
                                                 "id_target": id,
                                                 "target_name": name,
                                                 "date": details_data.get("date"),
@@ -194,7 +194,7 @@ def update_sentiment_target_from_api(api_url_sac_thai, api_url_tuong_tac, header
                                     if details_data.get("data"):
                                         total_neutral_posts = sum(convert_to_number(item.get("total", 0)) for item in details_data["data"])
                                         extracted_data = {
-                                            "uid": str(uuid.uuid4()),
+                                            "id": str(uuid.uuid4()),
                                             "id_target": id,  
                                             "target_name": name,
                                             "date": datetime.now().strftime("%Y-%m-%d"),
