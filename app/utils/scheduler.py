@@ -88,7 +88,7 @@ def start_scheduler(app):
             #     endpoints.APIPlatformEndpoints.GET_TOPIC.value, headers_platform, app))
             # scheduler.add_job(func=update_sentiment_topic_from_api, trigger="interval", minutes=5, args=(
             #     endpoints.APIPlatformEndpoints.SAC_THAI_THEO_CHU_DE.value, endpoints.APIPlatformEndpoints.LUOT_TUONG_TAC_THEO_CHU_DE.value, headers_platform, app))
-            scheduler.add_job(func=update_sentiment_target_from_api, trigger="interval", minutes=5, args=(
+            scheduler.add_job(func=update_sentiment_target_from_api, trigger="interval", minutes=0.5, args=(
                 endpoints.APIPlatformEndpoints.SAC_THAI_THEO_CHU_DE.value, endpoints.APIPlatformEndpoints.LUOT_TUONG_TAC_THEO_CHU_DE.value, headers_platform, app))
             # scheduler.add_job(func=update_sentiment_topic_from_api, trigger="interval", minutes=5, args=(
             #     endpoints.APISpyderEndpoints.SAC_THAI_THEO_CHU_DE.value, None, headers_spyder, app))
