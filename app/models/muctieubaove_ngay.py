@@ -14,6 +14,7 @@ class MucTieuBaoVe_ngay(db.Model):
     neutral_posts = db.Column(db.Integer, nullable=False)
     negative_posts = db.Column(db.Integer, nullable=False, default=0)
     date = db.Column(db.Date, default=datetime.utcnow)
+    hour = db.Column(db.Integer, nullable=False, default=lambda: datetime.utcnow().hour)
     platform = db.Column(db.String, nullable=False)
     system = db.Column(db.String, nullable=False)
     created_at = db.Column(db.TIMESTAMP(timezone=True), default=datetime.utcnow)
@@ -22,7 +23,7 @@ class MucTieuBaoVe_ngay(db.Model):
     last_updated = db.Column(db.TIMESTAMP(timezone=True), default=datetime.utcnow)
     
     @classmethod
-    def create(cls, id_target, target_name, sum_of_posts, positive_posts, neutral_posts, negative_posts, date, platform, system, created_at=None, last_updated=None):
+    def create(cls, id_target, target_name, sum_of_posts, positive_posts, neutral_posts, negative_posts, date, hour, platform, system, created_at=None, last_updated=None):
         # Set default values for optional fields if not provided
         created_at = created_at or datetime.utcnow()
         last_updated = last_updated or datetime.utcnow()
@@ -39,7 +40,8 @@ class MucTieuBaoVe_ngay(db.Model):
             platform=platform,
             system=system,
             created_at=created_at,
-            last_updated=last_updated
+            last_updated=last_updated,
+            hour=hour
         )
         
         # Add and commit the new record to the database
@@ -75,6 +77,7 @@ class MucTieuBaoVe_ngay(db.Model):
             'neutral_posts': self.neutral_posts,
             'negative_posts': self.negative_posts,
             'date': self.date.isoformat(),
+            'hour': self.hour,
             'platform': self.platform,
             'created_at': self.created_at.isoformat(),
             'system': self.system,
