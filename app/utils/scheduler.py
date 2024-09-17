@@ -6,7 +6,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 # from app.services.topic_new import update_topics_new_from_api
 from app.services.tinhthanh_ngay import update_location_post_counts_from_api
 from app.services.target import fetch_and_update_data_target
-from app.services.topic_day_test import update_sentiment_topic_from_api
+from app.services.topic_day_daunam_gio_test import update_sentiment_topic_from_api
 from app.services.bot import fetch_and_update_bot_data
 from app.services.serverCT import update_server_status
 from app.services.muctieubaove_ngay import update_sentiment_target_from_api
