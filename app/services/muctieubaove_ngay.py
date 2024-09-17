@@ -422,3 +422,4 @@ def update_sentiment_target_from_api(api_url_sac_thai, api_url_tuong_tac, header
 #                                 print(f"Spyder: An unexpected error occurred: {e}")
 
 #             current_date += timedelta(days=1)
+

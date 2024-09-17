@@ -14,14 +14,16 @@ class Topic_day(db.Model):
     neutral_posts = db.Column(db.Integer, nullable=False)
     negative_posts = db.Column(db.Integer, nullable=False, default=0)
     date = db.Column(db.Date, default=datetime.utcnow)
+    hour = db.Column(db.Integer, nullable=False, default=lambda: datetime.utcnow().hour)
     platform = db.Column(db.String, nullable=False)
     system = db.Column(db.String, nullable=False)
     created_at = db.Column(db.TIMESTAMP(timezone=True), default=datetime.utcnow)
     added_to_json = db.Column(db.String, default="1")
     reacts = db.Column(db.Integer, nullable=False, default=0)
     last_updated = db.Column(db.TIMESTAMP(timezone=True), default=datetime.utcnow)
+
     @classmethod
-    def create(cls, id_topic, topic_name, sum_of_posts, positive_posts, neutral_posts, negative_posts, date, platform, created_at, system, last_updated):
+    def create(cls, id_topic, topic_name, sum_of_posts, positive_posts, neutral_posts, negative_posts, date, hour, platform, created_at, system, last_updated):
         topic_day = cls(
             id_topic=id_topic,
             topic_name=topic_name,
@@ -30,6 +32,7 @@ class Topic_day(db.Model):
             neutral_posts=neutral_posts,
             negative_posts=negative_posts,
             date=date,
+            hour=hour,
             platform=platform,
             created_at=created_at,
             system=system,
@@ -66,6 +69,7 @@ class Topic_day(db.Model):
             'neutral_posts': self.neutral_posts,
             'negative_posts': self.negative_posts,
             'date': self.date.isoformat(),
+            'hour': self.hour,
             'platform': self.platform,
             'created_at': self.created_at.isoformat(),
             'system': self.system,
