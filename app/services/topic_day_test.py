@@ -6,6 +6,8 @@ from app import db
 from app.models.topic_new import Topic_new
 from app.models.topic_day import Topic_day
 from app.config import Config
+results_platform = db.session.query(Topic_new.id, Topic_new.name, Topic_new.keyword_platform).all()
+results_spyder = db.session.query(Topic_new.id, Topic_new.name, Topic_new.keyword_spyder).all()
 
 def convert_to_number(value):
     if isinstance(value, str):
@@ -51,9 +53,7 @@ def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac, headers
         "Topics": [-1]
     }
 
-    results_platform = db.session.query(Topic_new.id, Topic_new.name, Topic_new.keyword_platform).all()
-    results_spyder = db.session.query(Topic_new.id, Topic_new.name, Topic_new.keyword_spyder).all()
-
+    
     with app.app_context():
         # Xử lý platform (platform API)
         if Config.PLATFORM_API_URL in api_url_sac_thai:
