@@ -6,10 +6,10 @@ from apscheduler.schedulers.background import BackgroundScheduler
 # from app.services.topic_new import update_topics_new_from_api
 from app.services.tinhthanh_ngay import update_location_post_counts_from_api
 from app.services.target import fetch_and_update_data_target
-from app.services.topic_day_daunam_gio_test import update_sentiment_topic_from_api
+from app.services.topic_day import update_sentiment_topic_from_api
 from app.services.bot import fetch_and_update_bot_data
 from app.services.serverCT import update_server_status
-from app.services.muctieubaove_ngay_daunam_gio_test import update_sentiment_target_from_api
+from app.services.muctieubaove_ngay import update_sentiment_target_from_api
 from app import config, endpoints
 import requests
 from urllib3.exceptions import InsecureRequestWarning
@@ -86,15 +86,15 @@ def start_scheduler(app):
             # #     endpoints.APIPlatformEndpoints.POST.value, headers_platform, headers_spyder, app))
             # scheduler.add_job(func=update_topics_new_from_api, trigger="interval", minutes=5, args=(
             #     endpoints.APIPlatformEndpoints.GET_TOPIC.value, headers_platform, app))
-            scheduler.add_job(func=update_sentiment_topic_from_api, trigger="interval", minutes=1, args=(
+            scheduler.add_job(func=update_sentiment_topic_from_api, trigger="interval", minutes=5, args=(
                 endpoints.APIPlatformEndpoints.SAC_THAI_THEO_CHU_DE.value, endpoints.APIPlatformEndpoints.LUOT_TUONG_TAC_THEO_CHU_DE.value, headers_platform, app))
-            scheduler.add_job(func=update_sentiment_target_from_api, trigger="interval", minutes=1, args=(
+            scheduler.add_job(func=update_sentiment_target_from_api, trigger="interval", minutes=5, args=(
                 endpoints.APIPlatformEndpoints.SAC_THAI_THEO_CHU_DE.value, endpoints.APIPlatformEndpoints.LUOT_TUONG_TAC_THEO_CHU_DE.value, headers_platform, app))
-            scheduler.add_job(func=update_sentiment_topic_from_api, trigger="interval", minutes=1, args=(
+            scheduler.add_job(func=update_sentiment_topic_from_api, trigger="interval", minutes=5, args=(
                 endpoints.APISpyderEndpoints.SAC_THAI_THEO_CHU_DE.value, None, headers_spyder, app))
-            # scheduler.add_job(func=fetch_and_update_data_target, trigger="interval", minutes=1, args=(app,))
-            # scheduler.add_job(func=fetch_and_update_bot_data, trigger="interval", minutes=1, args=(app,))
-            # scheduler.add_job(func=update_server_status, trigger="interval", minutes=1, args=(app,))
+            scheduler.add_job(func=fetch_and_update_data_target, trigger="interval", minutes=5, args=(app,))
+            scheduler.add_job(func=fetch_and_update_bot_data, trigger="interval", minutes=5, args=(app,))
+            scheduler.add_job(func=update_server_status, trigger="interval", minutes=5, args=(app,))
             scheduler.add_job(func=update_location_post_counts_from_api, trigger="interval", minutes=5, args=(
                 endpoints.APIPlatformEndpoints.GET_POST_NUMBER_WITH_LOCATION.value, headers_platform, app))
             scheduler.start()
