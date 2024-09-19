@@ -6,7 +6,8 @@ from app import db
 from app.models.muctieubaove import MucTieuBaoVe
 from app.models.muctieubaove_ngay import MucTieuBaoVe_ngay
 from app.config import Config
-
+results_platform = db.session.query(MucTieuBaoVe.id, MucTieuBaoVe.name, MucTieuBaoVe.keyword_platform).all()
+results_spyder = db.session.query(MucTieuBaoVe.id, MucTieuBaoVe.name, MucTieuBaoVe.keyword_spyder).all()
 def convert_to_number(value):
     if isinstance(value, str):
         value = value.replace(" ", "")
@@ -28,8 +29,7 @@ def update_sentiment_target_from_api(api_url_sac_thai, api_url_tuong_tac, header
     now = datetime.now()
     current_date = now.date()  # Lấy ngày hiện tại
 
-    results_platform = db.session.query(MucTieuBaoVe.id, MucTieuBaoVe.name, MucTieuBaoVe.keyword_platform).all()
-    results_spyder = db.session.query(MucTieuBaoVe.id, MucTieuBaoVe.name, MucTieuBaoVe.keyword_spyder).all()
+
 
     with app.app_context():
         for hour in range(24):  # Lặp qua từng giờ trong ngày
