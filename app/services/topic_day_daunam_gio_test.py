@@ -31,7 +31,7 @@ def convert_to_number(value):
 
 def update_sentiment_topic_from_api(api_url_sac_thai, api_url_tuong_tac, headers=None, app=None):
     now = datetime.now()
-    start_date = datetime(2024, 1, 1)  # Ngày bắt đầu là 1/1/2024
+    start_date = datetime(2024, 9, 9)  # Ngày bắt đầu là 1/1/2024
 
     with app.app_context():
         current_date = start_date
