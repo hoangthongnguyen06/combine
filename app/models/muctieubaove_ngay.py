@@ -88,7 +88,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from app import db
 
 class MucTieuBaoVe_ngay(db.Model):
-    __tablename__ = 'TCTT_MucTieuBaoVe_Ngay'
+    __tablename__ = 'TCTT_MucTieuBaoVe_Ngay_test'
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     id_target = db.Column(db.String, db.ForeignKey('TCTT_MucTieuBaoVe.id'), nullable=False)
