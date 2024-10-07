@@ -81,7 +81,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from app import db
 
 class Topic_day(db.Model):
-    __tablename__ = 'TCTT_ChuDe_Ngay_Test'
+    __tablename__ = 'TCTT_ChuDe_Ngay'
 
     uid = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     id_topic = db.Column(db.String, db.ForeignKey('TCTT_ChuDe.id'), nullable=False)
